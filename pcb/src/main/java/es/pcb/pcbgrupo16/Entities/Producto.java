@@ -1,4 +1,4 @@
-package es.pcb.pcbgrupo16;
+package es.pcb.pcbgrupo16.Entities;
 
 import jakarta.persistence.*;
 
@@ -6,13 +6,13 @@ import java.time.LocalDate;
 
 @Entity
 public class Producto {
-    @EmbeddedId
-    private ProductoId id;
+    @Id
+    @Column(name = "SKU", nullable = false)
+    private Integer id;
 
-    @MapsId("gtin")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "GTIN", nullable = false)
-    private es.pcb.pcbgrupo16.TiendaInterna gtin;
+    private es.pcb.pcbgrupo16.Entities.TiendaInterna gtin;
 
     @Column(name = "nombre", length = 45)
     private String nombre;
@@ -26,27 +26,23 @@ public class Producto {
     @Column(name = "thumnail")
     private String thumnail;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "AsociacionProductos", referencedColumnName = "idProducto2")
-    private AsociacionProducto asociacionProductos;
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cuenta", nullable = false)
     private Cuenta cuenta;
 
-    public ProductoId getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(ProductoId id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public es.pcb.pcbgrupo16.TiendaInterna getGtin() {
+    public es.pcb.pcbgrupo16.Entities.TiendaInterna getGtin() {
         return gtin;
     }
 
-    public void setGtin(es.pcb.pcbgrupo16.TiendaInterna gtin) {
+    public void setGtin(es.pcb.pcbgrupo16.Entities.TiendaInterna gtin) {
         this.gtin = gtin;
     }
 
@@ -80,14 +76,6 @@ public class Producto {
 
     public void setThumnail(String thumnail) {
         this.thumnail = thumnail;
-    }
-
-    public AsociacionProducto getAsociacionProductos() {
-        return asociacionProductos;
-    }
-
-    public void setAsociacionProductos(AsociacionProducto asociacionProductos) {
-        this.asociacionProductos = asociacionProductos;
     }
 
     public Cuenta getCuenta() {

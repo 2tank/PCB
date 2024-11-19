@@ -1,4 +1,4 @@
-package es.pcb.pcbgrupo16;
+package es.pcb.pcbgrupo16.Entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
