@@ -13,7 +13,7 @@ public class Contenido {
     private Integer id;
 
     @Column(name = "contenido")
-    private byte[] contenido;
+    private String contenido;
 
     public Integer getId() {
         return id;
@@ -23,11 +23,11 @@ public class Contenido {
         this.id = id;
     }
 
-    public byte[] getContenido() {
+    public String getContenido() {
         return contenido;
     }
 
-    public void setContenido(byte[] contenido) {
+    public void setContenido(String contenido) {
         this.contenido = contenido;
     }
 

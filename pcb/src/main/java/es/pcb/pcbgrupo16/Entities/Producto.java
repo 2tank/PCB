@@ -11,11 +11,10 @@ public class Producto {
     @Column(name = "SKU", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "GTIN", nullable = false)
-    private es.pcb.pcbgrupo16.Entities.Tiendainterna gtin;
+    @Column(name = "GTIN", nullable = false)
+    private Integer gtin;
 
-    @Column(name = "nombre", length = 45)
+    @Column(name = "nombre")
     private String nombre;
 
     @Column(name = "fechaCreacion")
@@ -39,11 +38,11 @@ public class Producto {
         this.id = id;
     }
 
-    public es.pcb.pcbgrupo16.Entities.Tiendainterna getGtin() {
+    public Integer getGtin() {
         return gtin;
     }
 
-    public void setGtin(es.pcb.pcbgrupo16.Entities.Tiendainterna gtin) {
+    public void setGtin(Integer gtin) {
         this.gtin = gtin;
     }
 

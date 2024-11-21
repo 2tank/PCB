@@ -64,9 +64,9 @@
 </style>
 <header>
     <nav>
-        <a href="<%=ruta%>/products">PRODUCTS</a>
-        <a href="<%=ruta%>/categories>">CATEGORIES</a>
-        <a href="<%=ruta%>/attributes">ATTRIBUTES</a>
+        <a href="/products">PRODUCTS</a>
+        <a href="/categories>">CATEGORIES</a>
+        <a href="/attributes">ATTRIBUTES</a>
     </nav>
     <div class="col">
         <div class="logo">

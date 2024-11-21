@@ -1,14 +1,45 @@
 package es.pcb.pcbgrupo16.Controller;
 
-import es.pcb.pcbgrupo16.*;
+
+import es.pcb.pcbgrupo16.Entities.Cuenta;
+import es.pcb.pcbgrupo16.Entities.Producto;
+import es.pcb.pcbgrupo16.Entities.Usuario;
+import es.pcb.pcbgrupo16.Repository.ProductoRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/producto")
-public class Producto {
+@RequestMapping("/products")
+public class ProductoController extends BaseController {
+
+    @Autowired
+    private ProductoRepository productoRepository;
+
+
+    @GetMapping("/")
+    public String listarProductos(Model model, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Cuenta cuenta = (Cuenta) usuario.getCuenta();
+        List<Producto> listaProductos = productoRepository.findAllByCuenta(cuenta.getId());
+
+        model.addAttribute("productos", listaProductos);
+
+        return "Productos/listadoProductos";
+    }
+
+    @GetMapping("/delete")
+    public String eliminarProducto(Model model, HttpSession session, @RequestParam Integer id) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        productoRepository.deleteById(id);
+        return "redirect:/products/";
+    }
+
 
 //    @Autowired
 //    private ProductoService productoService;
