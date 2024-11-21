@@ -66,7 +66,7 @@
 <header>
     <nav>
         <a href="products/">PRODUCTS</a>
-        <a href="categoria/">CATEGORIES</a>
+        <a href="categories/">CATEGORIES</a>
         <a href="attributes/">ATTRIBUTES</a>
     </nav>
     <div class="col">
