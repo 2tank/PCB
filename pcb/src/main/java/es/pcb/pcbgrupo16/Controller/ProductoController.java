@@ -39,11 +39,11 @@ public class ProductoController extends BaseController {
         return "Products/listadoProductos";
     }
 
-    @GetMapping("/products/delete/{id}")
-    public String eliminarProducto(Model model, HttpSession session, @PathVariable Integer id) {
-        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+    @GetMapping("/delete/{id}")
+    public String eliminarProducto(Model model, HttpSession session, @RequestParam Integer prod_id) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null || usuario.getCuenta() == null) {
-            return "redirect:/Home/login";
+            return "redirect:/login";
         }
         productoRepository.deleteById(id);
         Cuenta cuenta = usuario.getCuenta();
