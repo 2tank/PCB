@@ -12,7 +12,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categories</title>
+    <title>Atributes</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -53,7 +53,7 @@
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
 <div class="title">
-    <h1>CATEGORIES</h1>
+    <h1>Atributes</h1>
     <div class="create-button">
         <button>CREATE</button>
     </div>

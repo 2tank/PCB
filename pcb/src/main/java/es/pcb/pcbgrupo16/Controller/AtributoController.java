@@ -1,18 +1,36 @@
 package es.pcb.pcbgrupo16.Controller;
 
-import es.pcb.pcbgrupo16.*;
+import es.pcb.pcbgrupo16.Entities.Atributo;
+import es.pcb.pcbgrupo16.Entities.Categoria;
+import es.pcb.pcbgrupo16.Entities.Cuenta;
+import es.pcb.pcbgrupo16.Entities.Usuario;
+import es.pcb.pcbgrupo16.Repository.AtributoRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/atributos")
+@Controller
+@RequestMapping("/atributes")
+public class AtributoController extends BaseController {
 
-public class Atributo {
+    @Autowired
+    public AtributoRepository atributoRepository;
+
+    @GetMapping("/")
+    public String listarProductos(Model model, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        Cuenta cuenta = usuario.getCuenta();
+        List<Atributo> listaAtributos = atributoRepository.findAll();
+
+        model.addAttribute("atributos", listaAtributos);
+
+        return "Atributes/listAtributes";
+    }
 
 //    @Autowired
 //    private AtributoService atributoService;

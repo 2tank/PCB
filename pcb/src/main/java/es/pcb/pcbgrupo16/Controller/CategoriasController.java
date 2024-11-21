@@ -2,7 +2,6 @@ package es.pcb.pcbgrupo16.Controller;
 
 import es.pcb.pcbgrupo16.Entities.Categoria;
 import es.pcb.pcbgrupo16.Entities.Cuenta;
-import es.pcb.pcbgrupo16.Entities.Producto;
 import es.pcb.pcbgrupo16.Entities.Usuario;
 import es.pcb.pcbgrupo16.Repository.CategoriaRepository;
 import jakarta.servlet.http.HttpSession;
@@ -23,7 +22,7 @@ public class CategoriasController extends BaseController{
 
     // hay que asociar cuenta a categoria?
     @GetMapping("/")
-    public String listarProductos(Model model, HttpSession session) {
+    public String listarCategorias(Model model, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         Cuenta cuenta = usuario.getCuenta();

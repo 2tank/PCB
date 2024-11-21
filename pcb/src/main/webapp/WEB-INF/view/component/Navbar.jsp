@@ -67,7 +67,7 @@
     <nav>
         <a href="products/">PRODUCTS</a>
         <a href="categories/">CATEGORIES</a>
-        <a href="attributes/">ATTRIBUTES</a>
+        <a href="atributes/">ATTRIBUTES</a>
     </nav>
     <div class="col">
         <div class="logo">
