@@ -45,15 +45,18 @@ public class ProductoController extends BaseController {
         if (usuario == null || usuario.getCuenta() == null) {
             return "redirect:/Home/login";
         }
-        productoRepository.deleteById(prod_id);
-        return "Productos/listadoProductos";
+        productoRepository.deleteById(id);
+        Cuenta cuenta = usuario.getCuenta();
+        List<Producto> listaProductos = productoRepository.findAllByCuenta(cuenta.getId());
+        model.addAttribute("productos", listaProductos);
+        return "Products/listadoProductos";
     }
 
     @GetMapping("/create")
     public String crearProducto(@ModelAttribute Producto producto, Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null || usuario.getCuenta() == null) {
-            return "redirect:/login";
+            return "redirect:/Home/login";
         }
         Cuenta cuenta = (Cuenta) usuario.getCuenta();
 
@@ -64,7 +67,7 @@ public class ProductoController extends BaseController {
         producto.setFechaCreacion(LocalDate.now());
         producto.setFechaModificacion(LocalDate.now());
         productoRepository.save(producto);
-        return "Productos/crearProducto";
+        return "Products/crearProducto";
     }
 
     @GetMapping("/edit")
@@ -78,7 +81,7 @@ public class ProductoController extends BaseController {
         prod_mod.setCuenta(producto.getCuenta());
         producto.setThumnail(producto.getThumnail());
 
-        return"Productos/listadoProductos";
+        return"Products/listadoProductos";
     }
 
 
@@ -96,14 +99,14 @@ public class ProductoController extends BaseController {
         // Verificar si el producto existe
         if (producto == null) {
             model.addAttribute("error", "El producto no existe.");
-            return "Productos/errorProducto";
+            return "Products/errorProducto";
         }
 
         // Pasar los datos del producto al modelo
         model.addAttribute("producto", producto);
 
         // Retornar la vista con las especificaciones
-        return "Productos/especificacionesProducto";
+        return "Products/especificacionesProducto";
     }
 
 }
