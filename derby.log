@@ -1,0 +1,16 @@
+----------------------------------------------------------------
+Thu Nov 21 11:32:05 CET 2024:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.16.1.1 - (1901046): instance a816c00e-0193-4e47-72b7-00000342d100 
+on database directory memory:/home/adriubuntu/Documentos/pcb/4b4296cb-06f6-464a-838d-c7fdc74656b5 with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@76ed5528 
+Loaded from file:/home/adriubuntu/.m2/repository/org/apache/derby/derby/10.16.1.1/derby-10.16.1.1.jar
+java.vendor=Amazon.com Inc.
+java.runtime.version=21.0.5+11-LTS
+user.dir=/home/adriubuntu/Documentos/pcb
+os.name=Linux
+os.arch=amd64
+os.version=6.8.0-49-generic
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Thu Nov 21 11:32:06 CET 2024:
+Shutting down instance a816c00e-0193-4e47-72b7-00000342d100 on database directory memory:/home/adriubuntu/Documentos/pcb/4b4296cb-06f6-464a-838d-c7fdc74656b5 with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@76ed5528 
