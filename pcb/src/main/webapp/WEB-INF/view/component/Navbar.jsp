@@ -65,9 +65,9 @@
 </style>
 <header>
     <nav>
-        <a href="${pageContext.request.contextPath}/products">PRODUCTS</a>
-        <a href="${pageContext.request.contextPath}/categoria/">CATEGORIES</a>
-        <a href="${pageContext.request.contextPath}/attributes">ATTRIBUTES</a>
+        <a href="products/">PRODUCTS</a>
+        <a href="categoria/">CATEGORIES</a>
+        <a href="attributes/">ATTRIBUTES</a>
     </nav>
     <div class="col">
         <div class="logo">

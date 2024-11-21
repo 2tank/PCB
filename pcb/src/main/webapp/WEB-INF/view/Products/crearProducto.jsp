@@ -1,4 +1,3 @@
-<%@ page import="es.pcb.pcbgrupo16.Entities.Productocategoria" %>
 <%@ page import="java.util.List" %>
 <%@ page import="es.pcb.pcbgrupo16.Entities.Categoria" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -13,7 +12,7 @@
     <link rel="stylesheet" href="crearProducto.css"> </head>
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
-<form action="${pageContext.request.contextPath}/crearProducto" method="post">
+<form action="products/createProduct/" method="post">
     <div class="product-form">
         <h2>¡Crea tu producto!</h2>
         <label for="sku">Código del producto:</label>

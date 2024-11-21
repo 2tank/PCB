@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-//@RequestMapping("/products")
+@RequestMapping("/products")
 public class ProductoController extends BaseController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class ProductoController extends BaseController {
     private CategoriaRepository categoriaRepository;
 
 
-    @GetMapping("/products")
+    @GetMapping("/")
     public String listarProductos(Model model, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
@@ -39,9 +39,9 @@ public class ProductoController extends BaseController {
         return "Products/listadoProductos";
     }
 
-    @GetMapping("/delete/{id}")
-    public String eliminarProducto(Model model, HttpSession session, @RequestParam Integer prod_id) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    @GetMapping("/delete")
+    public String eliminarProducto(Model model, HttpSession session, @RequestParam("id") Integer id) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         if (usuario == null || usuario.getCuenta() == null) {
             return "redirect:/login";
         }
@@ -53,21 +53,31 @@ public class ProductoController extends BaseController {
     }
 
     @GetMapping("/create")
-    public String crearProducto(@ModelAttribute Producto producto, Model model, HttpSession session) {
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+    public String crearProducto(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         if (usuario == null || usuario.getCuenta() == null) {
-            return "redirect:/Home/login";
+            return "redirect:/login";
         }
-        Cuenta cuenta = (Cuenta) usuario.getCuenta();
+        Cuenta cuenta = usuario.getCuenta();
 
         List<Categoria> categorias = categoriaRepository.findAll();
         model.addAttribute("categorias", categorias);
+        return "Products/crearProducto";
+    }
+
+    @PostMapping("/createProduct")
+    public String crearProducto(@ModelAttribute Producto producto, Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        if (usuario == null || usuario.getCuenta() == null) {
+            return "redirect:/login";
+        }
+        Cuenta cuenta = usuario.getCuenta();
 
         producto.setCuenta(cuenta);
         producto.setFechaCreacion(LocalDate.now());
         producto.setFechaModificacion(LocalDate.now());
         productoRepository.save(producto);
-        return "Products/crearProducto";
+        return "Products/listadoProductos";
     }
 
     @GetMapping("/edit")

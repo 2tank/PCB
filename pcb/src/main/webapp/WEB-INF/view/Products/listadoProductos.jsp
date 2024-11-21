@@ -51,8 +51,8 @@
       <strong><%=p.getNombre()%></strong> | GTIN: <%=p.getGtin()%>  | NombreCuenta: <%=p.getCuenta().getNombre()%>
     </div>
     <div>
-      <a href="/products/edit/<%=p.getId()%>">Edit</a> |
-      <a href="/products/delete/<%=p.getId()%>" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+      <a href="/products/edit?id=<%=p.getId()%>">Edit</a> |
+      <a href="/products/delete?id=<%=p.getId()%>" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
     </div>
   </div>
   <%}%>
