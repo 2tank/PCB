@@ -3,8 +3,10 @@ package es.pcb.pcbgrupo16.Entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "contenido")
 public class Contenido {
     @Id
     @Column(name = "id", nullable = false)

@@ -1,14 +1,12 @@
 package es.pcb.pcbgrupo16.Entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 
 @Entity
+@Table(name = "cuenta")
 public class Cuenta {
     @Id
     @Column(name = "id", nullable = false)
@@ -17,13 +15,6 @@ public class Cuenta {
     @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "contrasena", nullable = false)
-    private String contrasena;
-
-    @Column(name = "email", nullable = false)
-    private String email;
-
-    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "fechaDeCreacion")
     private Instant fechaDeCreacion;
 
@@ -36,18 +27,6 @@ public class Cuenta {
     @Lob
     @Column(name = "descripcion")
     private String descripcion;
-
-    @ColumnDefault("0")
-    @Column(name = "esOwner")
-    private Boolean esOwner;
-
-    @ColumnDefault("0")
-    @Column(name = "esAgente")
-    private Boolean esAgente;
-
-    @ColumnDefault("1")
-    @Column(name = "esUsuario")
-    private Boolean esUsuario;
 
     public Integer getId() {
         return id;
@@ -63,22 +42,6 @@ public class Cuenta {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public Instant getFechaDeCreacion() {
@@ -111,30 +74,6 @@ public class Cuenta {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }
-
-    public Boolean getEsOwner() {
-        return esOwner;
-    }
-
-    public void setEsOwner(Boolean esOwner) {
-        this.esOwner = esOwner;
-    }
-
-    public Boolean getEsAgente() {
-        return esAgente;
-    }
-
-    public void setEsAgente(Boolean esAgente) {
-        this.esAgente = esAgente;
-    }
-
-    public Boolean getEsUsuario() {
-        return esUsuario;
-    }
-
-    public void setEsUsuario(Boolean esUsuario) {
-        this.esUsuario = esUsuario;
     }
 
 }

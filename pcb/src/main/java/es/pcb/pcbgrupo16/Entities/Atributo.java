@@ -3,6 +3,7 @@ package es.pcb.pcbgrupo16.Entities;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "atributo")
 public class Atributo {
     @Id
     @Column(name = "id", nullable = false)

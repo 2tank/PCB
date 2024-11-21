@@ -3,9 +3,10 @@ package es.pcb.pcbgrupo16.Entities;
 import jakarta.persistence.*;
 
 @Entity
-public class ProductoCategoria {
+@Table(name = "productocategoria")
+public class Productocategoria {
     @EmbeddedId
-    private ProductoCategoriaId id;
+    private ProductocategoriaId id;
 
     @MapsId("idProducto")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -17,11 +18,11 @@ public class ProductoCategoria {
     @JoinColumn(name = "idCategoria", nullable = false)
     private Categoria idCategoria;
 
-    public ProductoCategoriaId getId() {
+    public ProductocategoriaId getId() {
         return id;
     }
 
-    public void setId(ProductoCategoriaId id) {
+    public void setId(ProductocategoriaId id) {
         this.id = id;
     }
 

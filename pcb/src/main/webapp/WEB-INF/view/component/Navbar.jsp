@@ -1,3 +1,18 @@
+<%@ page import="es.pcb.pcbgrupo16.Entities.Usuario" %><%
+
+    Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+
+    String ruta = "basic";
+
+    if(usuario.getRol() == 1){
+        ruta = "admin";
+    }
+    else if(usuario.getRol() == 2){
+        ruta = "owner";
+    }
+
+%>
+
 <style>
     header {
         display: flex;
@@ -49,9 +64,9 @@
 </style>
 <header>
     <nav>
-        <a href="#" class="active">PRODUCTS</a>
-        <a href="#">CATEGORIES</a>
-        <a href="#">ATRIBUTES</a>
+        <a href="<%=ruta%>/products">PRODUCTS</a>
+        <a href="<%=ruta%>/categories>">CATEGORIES</a>
+        <a href="<%=ruta%>/attributes">ATTRIBUTES</a>
     </nav>
     <div class="col">
         <div class="logo">

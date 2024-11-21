@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "producto")
 public class Producto {
     @Id
     @Column(name = "SKU", nullable = false)
@@ -12,7 +13,7 @@ public class Producto {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "GTIN", nullable = false)
-    private es.pcb.pcbgrupo16.Entities.TiendaInterna gtin;
+    private es.pcb.pcbgrupo16.Entities.Tiendainterna gtin;
 
     @Column(name = "nombre", length = 45)
     private String nombre;
@@ -38,11 +39,11 @@ public class Producto {
         this.id = id;
     }
 
-    public es.pcb.pcbgrupo16.Entities.TiendaInterna getGtin() {
+    public es.pcb.pcbgrupo16.Entities.Tiendainterna getGtin() {
         return gtin;
     }
 
-    public void setGtin(es.pcb.pcbgrupo16.Entities.TiendaInterna gtin) {
+    public void setGtin(es.pcb.pcbgrupo16.Entities.Tiendainterna gtin) {
         this.gtin = gtin;
     }
 
