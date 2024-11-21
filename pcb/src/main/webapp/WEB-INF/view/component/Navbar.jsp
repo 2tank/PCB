@@ -1,5 +1,7 @@
-<%@ page import="es.pcb.pcbgrupo16.Entities.Usuario" %><%
+<%@ page import="es.pcb.pcbgrupo16.Entities.Usuario" %>
 
+
+<%
     Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
 
     String ruta = "basic";
@@ -10,7 +12,6 @@
     else if(usuario.getRol() == 2){
         ruta = "owner";
     }
-
 %>
 
 <style>
@@ -64,9 +65,9 @@
 </style>
 <header>
     <nav>
-        <a href="/products">PRODUCTS</a>
-        <a href="/categories>">CATEGORIES</a>
-        <a href="/attributes">ATTRIBUTES</a>
+        <a href="${pageContext.request.contextPath}/products">PRODUCTS</a>
+        <a href="${pageContext.request.contextPath}/categoria/">CATEGORIES</a>
+        <a href="${pageContext.request.contextPath}/attributes">ATTRIBUTES</a>
     </nav>
     <div class="col">
         <div class="logo">

@@ -1,7 +1,8 @@
+<%@ page import="java.util.List" %>
+<%@ page import="es.pcb.pcbgrupo16.Entities.Producto" %>
 <!-- Vista Principal -->
 <%
-
-
+  List<Producto> productos = (List<Producto>) request.getAttribute("productos");
 %>
 
 <!DOCTYPE html>
@@ -37,24 +38,24 @@
   </style>
 </head>
 <body>
-
+<%@ include file = "../component/Navbar.jsp" %>
 <!-- Enlace para ir a la vista de creación de producto -->
 <a href="/products/create" class="btn-create">Create New Product</a>
 
 <!-- Lista de productos -->
 <div class="product-list">
   <h2>Product List</h2>
-  <c:forEach var="product" items="${products}">
-    <div class="product-item">
-      <div>
-        <strong>${product.name}</strong> - ${product.description} - $${product.price}
-      </div>
-      <div>
-        <a href="/products/edit/${product.id}">Edit</a> |
-        <a href="/products/delete/${product.id}" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
-      </div>
+  <%for(Producto p:productos){%>
+  <div class="product-item">
+    <div>
+      <strong><%=p.getNombre()%></strong> | GTIN: <%=p.getGtin()%>  | NombreCuenta: <%=p.getCuenta().getNombre()%>
     </div>
-  </c:forEach>
+    <div>
+      <a href="/products/edit/<%=p.getId()%>">Edit</a> |
+      <a href="/products/delete/<%=p.getId()%>" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+    </div>
+  </div>
+  <%}%>
 </div>
 </body>
 </html>

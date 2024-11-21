@@ -1,79 +1,109 @@
 package es.pcb.pcbgrupo16.Controller;
 
 
+import es.pcb.pcbgrupo16.Entities.Categoria;
 import es.pcb.pcbgrupo16.Entities.Cuenta;
 import es.pcb.pcbgrupo16.Entities.Producto;
 import es.pcb.pcbgrupo16.Entities.Usuario;
+import es.pcb.pcbgrupo16.Repository.CategoriaRepository;
 import es.pcb.pcbgrupo16.Repository.ProductoRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
-@RestController
-@RequestMapping("/products")
+@Controller
+//@RequestMapping("/products")
 public class ProductoController extends BaseController {
 
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
 
-    @GetMapping("/")
+
+    @GetMapping("/products")
     public String listarProductos(Model model, HttpSession session) {
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-        Cuenta cuenta = (Cuenta) usuario.getCuenta();
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        Cuenta cuenta = usuario.getCuenta();
         List<Producto> listaProductos = productoRepository.findAllByCuenta(cuenta.getId());
 
         model.addAttribute("productos", listaProductos);
 
+        return "Products/listadoProductos";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String eliminarProducto(Model model, HttpSession session, @RequestParam Integer prod_id) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null || usuario.getCuenta() == null) {
+            return "redirect:/login";
+        }
+        productoRepository.deleteById(prod_id);
         return "Productos/listadoProductos";
     }
 
-    @GetMapping("/delete")
-    public String eliminarProducto(Model model, HttpSession session, @RequestParam Integer id) {
-
+    @GetMapping("/create")
+    public String crearProducto(@ModelAttribute Producto producto, Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        productoRepository.deleteById(id);
-        return "redirect:/products/";
+        if (usuario == null || usuario.getCuenta() == null) {
+            return "redirect:/login";
+        }
+        Cuenta cuenta = (Cuenta) usuario.getCuenta();
+
+        List<Categoria> categorias = categoriaRepository.findAll();
+        model.addAttribute("categorias", categorias);
+
+        producto.setCuenta(cuenta);
+        producto.setFechaCreacion(LocalDate.now());
+        producto.setFechaModificacion(LocalDate.now());
+        productoRepository.save(producto);
+        return "Productos/crearProducto";
+    }
+
+    @GetMapping("/edit")
+    public String editarProducto(@ModelAttribute Producto producto/*Producto que he de modificar*/, Model model, HttpSession session){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Producto prod_mod = productoRepository.findById(producto.getId()).get();
+
+        prod_mod.setFechaModificacion(producto.getFechaModificacion());
+        prod_mod.setNombre(producto.getNombre());
+        prod_mod.setFechaModificacion(producto.getFechaModificacion());
+        prod_mod.setCuenta(producto.getCuenta());
+        producto.setThumnail(producto.getThumnail());
+
+        return"Productos/listadoProductos";
     }
 
 
-//    @Autowired
-//    private ProductoService productoService;
-//
-//
-//    @GetMapping
-//    public List<AtributoUsuario> listarProductos(){
-//        return atributoService.allAtributos();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public AtributoUsuario getAtributo(@PathVariable float id){
-//        return atributoService.getAtributo(id);
-//        //TODO controloar fallos
-//    }
-//
-//    @PostMapping("/crearatr")
-//    public AtributoUsuario crearAtributo(@RequestBody AtributoUsuario atr){
-//        return atributoService.createAtribute(atr);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public void deleteAtributo(@PathVariable float id){
-//        return atributoService.deleteAtributo(id);
-//        // TODO controlar errores
-//
-//    }
-//
-//    @PutMapping("/{id}")
-//    public AtributoUsuario updateAtributo(@PathVariable float id, @RequestBody AtributoUsuario cosasnuevas ){
-//        AtributoUsuario atributo = atributoService.getAtributo(id);
-//
-//        atributo.setNombre(cosasnuevas.getNombre());
-//        atributo.setTipo(cosasnuevas.getTipo());
-//        return atributoService.createAtribute(atributo);
-//    }
+    @GetMapping("/get")
+    public String getProducto(@RequestParam Integer id, Model model, HttpSession session) {
+        // Verificar que el usuario está en sesión
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null || usuario.getCuenta() == null) {
+            return "redirect:/login";
+        }
+
+        // Buscar el producto por ID
+        Producto producto = productoRepository.findById(id).orElse(null);
+
+        // Verificar si el producto existe
+        if (producto == null) {
+            model.addAttribute("error", "El producto no existe.");
+            return "Productos/errorProducto";
+        }
+
+        // Pasar los datos del producto al modelo
+        model.addAttribute("producto", producto);
+
+        // Retornar la vista con las especificaciones
+        return "Productos/especificacionesProducto";
+    }
+
 }
