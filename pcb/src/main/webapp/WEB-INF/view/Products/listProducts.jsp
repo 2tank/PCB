@@ -40,6 +40,7 @@
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
 <!-- Enlace para ir a la vista de creación de producto -->
+<h1>PRODUCTS</h1>
 <a href="/products/create" class="btn-create">Create New Product</a>
 
 <!-- Lista de productos -->
@@ -48,7 +49,7 @@
   <%for(Producto p:productos){%>
   <div class="product-item">
     <div>
-      <strong><%=p.getNombre()%></strong> | GTIN: <%=p.getGtin()%>  | NombreCuenta: <%=p.getCuenta().getNombre()%>
+      <a href="/products/view?id=<%=p.getId()%>"> <strong> <%=p.getNombre()%></strong></a> | GTIN: <%=p.getGtin()%>  | NombreCuenta: <%=p.getCuenta().getNombre()%>
     </div>
     <div>
       <a href="/products/edit?id=<%=p.getId()%>">Edit</a> |

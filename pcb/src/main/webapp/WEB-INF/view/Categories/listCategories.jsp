@@ -13,39 +13,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Categories</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+        .category-list {
+            margin-top: 20px;
+            padding: 20px;
             background-color: #f9f9f9;
         }
-        .title {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .title h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-        .content h1 {
-            text-align: center;
-        }
-        .create-button {
-            display: block;
-            margin: 20px auto;
+        .btn-create {
             padding: 10px 20px;
-            background-color: #57e357;
+            background-color: #4CAF50;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
             cursor: pointer;
+            margin-bottom: 20px;
         }
-        .category-list {
-            max-width: 600px;
-            margin: 0 auto;
-            list-style: none;
-            padding: 0;
+        .btn-create:hover {
+            background-color: #45a049;
+        }
+        .category-item {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
     </style>
 </head>
@@ -53,27 +41,21 @@
 <%@ include file = "../component/Navbar.jsp" %>
 <div class="title">
     <h1>CATEGORIES</h1>
-    <div class="create-button">
-        <button>CREATE</button>
-    </div>
-    <ul class="category-list">
-        <%-- Iterar sobre las categorías desde el backend --%>
-        <%
-            for (Categoria category : categorias) {%>
-        <li>
+    <a href="categories/create/" class="btn-create">Create New Product</a>
+    <div class="category-list">
+        <h2>Categories List</h2>
+        <%for(Categoria c:categorias){%>
+        <div class="category-item">
             <div>
-                <a href="/<%=category.getId()%>"> <%=category.getNombre()%> </a>
+                <a href="/categories/view?id=<%=c.getId()%>"> <strong> <%=c.getNombre()%></strong></a> | NumProductos: <%=c.getNumProductos()%>|
             </div>
-
-            <div>cantidad: <%=category.getNumProductos()%></div>
-
-            <div class="buttons">
-                <button class="delete">DELETE</button>
-                <button class="edit">EDIT</button>
+            <div>
+                <a href="/products/edit?id=<%=c.getId()%>">Edit</a> |
+                <a href="/products/delete?id=<%=c.getId()%>" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
             </div>
-        </li>
+        </div>
         <%}%>
-    </ul>
+    </div>
 </div>
 </body>
 </html>

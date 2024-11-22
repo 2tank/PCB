@@ -13,7 +13,7 @@
     <div class="card shadow" style="width: 25rem;">
         <div class="card-body">
             <h3 class="card-title text-center mb-4">Login</h3>
-            <form action="/autenticar" method="post">
+            <form action="/auth" method="post">
                 <!-- Username/Email Input -->
                 <div class="mb-3">
                     <label for="username" class="form-label">Username or Email</label>

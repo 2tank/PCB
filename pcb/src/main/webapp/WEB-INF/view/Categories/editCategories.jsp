@@ -1,7 +1,7 @@
 <%@ page import="es.pcb.pcbgrupo16.Entities.Categoria" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Categoria categoria = (Categoria) request.getAttribute("categoria")
+    Categoria categoria = (Categoria) request.getAttribute("categoria");
 %>
 <!DOCTYPE html>
 <html lang="es">

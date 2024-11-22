@@ -19,7 +19,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: #b09cc5;
+        background-color: rgba(243, 124, 208, 0.6);
         padding: 10px 20px;
         border-bottom: 3px solid #4a90e2;
     }
@@ -54,12 +54,13 @@
         border-radius: 50%;
     }
     .image-button {
-        background-image: url('../iconos/logo.png');
+        background-image: url('../icon/logo.png');
         background-size: cover;
         border: none;
         width: 100px;
         height: 50px;
         cursor: pointer;
+        z-index: 9999;
     }
 
 </style>

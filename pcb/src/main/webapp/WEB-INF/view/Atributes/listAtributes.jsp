@@ -14,39 +14,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atributes</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+        .atribute-list {
+            margin-top: 20px;
+            padding: 20px;
             background-color: #f9f9f9;
         }
-        .title {
-            text-align: center;
-            margin-bottom: 20px;
+        .atribute-item {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .title h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-        .content h1 {
-            text-align: center;
-        }
-        .create-button {
-            display: block;
-            margin: 20px auto;
+        .btn-create {
             padding: 10px 20px;
-            background-color: #57e357;
+            background-color: #4CAF50;
             color: white;
             border: none;
-            border-radius: 5px;
-            font-size: 16px;
             cursor: pointer;
+            margin-bottom: 20px;
         }
-        .category-list {
-            max-width: 600px;
-            margin: 0 auto;
-            list-style: none;
-            padding: 0;
+        .btn-create:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -54,31 +42,21 @@
 <%@ include file = "../component/Navbar.jsp" %>
 <div class="title">
     <h1>Atributes</h1>
-    <div class="create-button">
-        <button>CREATE</button>
-    </div>
-    <ul class="category-list">
-        <%-- Iterar sobre las categorías desde el backend --%>
-        <%for (Atributo att: atributos) {%>
-        <li>
+    <a href="/atributes/create" class="btn-create">Create New Product</a>
+    <div class="atribute-list">
+        <h2>Categories List</h2>
+        <%for(Atributo a:atributos){%>
+        <div class="atribute-item">
             <div>
-                <a href="/<%=att.getNombre() + att.getTipo()%>"> <%=att.getNombre()%> </a>
+                <a href="/categories/view?id=<%=a.getId()%>"> <strong> <%=a.getNombre()%></strong></a> | Tipo: <%=a.getTipo()%>| Contenido: <%=a.getContenido().getContenido()%>
             </div>
-
-            <div>tipo: <%=att.getTipo()%></div>
-
-            <%if(Objects.equals(att.getTipo(), "IMAGE")){%>
-            <img src="${pageContext.request.contextPath}/images/<%=att.getContenido()%>" alt="<%="imagen"%>"> <!-- si quiero meter una imagen ocmo contenido debo de crear un nuevo tipo de imagen y almacenar el id -->
-            <%}else{%>
-            <div>contenido: <%=att.getTipo()%></div>
-            <%}%>
-            <div class="buttons">
-                <button class="delete" >DELETE</button>
-                <button class="edit">EDIT</button>
+            <div>
+                <a href="/products/edit?id=<%=a.getId()%>">Edit</a> |
+                <a href="/products/delete?id=<%=a.getId()%>" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
             </div>
-        </li>
+        </div>
         <%}%>
-    </ul>
+    </div>
 </div>
 </body>
 </html>

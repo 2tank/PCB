@@ -36,7 +36,7 @@ public class ProductoController extends BaseController {
 
         model.addAttribute("productos", listaProductos);
 
-        return "Products/listadoProductos";
+        return "Products/listProducts";
     }
 
     @GetMapping("/delete")
@@ -49,7 +49,7 @@ public class ProductoController extends BaseController {
         Cuenta cuenta = usuario.getCuenta();
         List<Producto> listaProductos = productoRepository.findAllByCuenta(cuenta.getId());
         model.addAttribute("productos", listaProductos);
-        return "Products/listadoProductos";
+        return "Products/listProducts";
     }
 
     @GetMapping("/create")
@@ -62,7 +62,7 @@ public class ProductoController extends BaseController {
 
         List<Categoria> categorias = categoriaRepository.findAll();
         model.addAttribute("categorias", categorias);
-        return "Products/crearProducto";
+        return "Products/createProducts";
     }
 
     @PostMapping("/createProduct")
@@ -77,12 +77,21 @@ public class ProductoController extends BaseController {
         producto.setFechaCreacion(LocalDate.now());
         producto.setFechaModificacion(LocalDate.now());
         productoRepository.save(producto);
-        return "Products/listadoProductos";
+        return "Products/listProducts";
     }
 
     @GetMapping("/edit")
+    public String editarProducto(Model model, HttpSession session, @RequestParam("id") Integer id){
+
+        model.addAttribute("categorias", categoriaRepository.findAll());
+        model.addAttribute("producto", productoRepository.findById(id).orElse(null));
+        model.addAttribute("categoriasProducto", categoriaRepository.findAll());
+
+        return "Products/editProducts";
+    }
+    @PostMapping("/editProduct")
     public String editarProducto(@ModelAttribute Producto producto/*Producto que he de modificar*/, Model model, HttpSession session){
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         Producto prod_mod = productoRepository.findById(producto.getId()).get();
 
         prod_mod.setFechaModificacion(producto.getFechaModificacion());
@@ -91,14 +100,14 @@ public class ProductoController extends BaseController {
         prod_mod.setCuenta(producto.getCuenta());
         producto.setThumnail(producto.getThumnail());
 
-        return"Products/listadoProductos";
+        return "Products/listProducts";
     }
 
 
-    @GetMapping("/get")
-    public String getProducto(@RequestParam Integer id, Model model, HttpSession session) {
+    @GetMapping("/view")
+    public String getProducto(Model model, HttpSession session, @RequestParam("id") Integer id) {
         // Verificar que el usuario está en sesión
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         if (usuario == null || usuario.getCuenta() == null) {
             return "redirect:/login";
         }
@@ -114,9 +123,10 @@ public class ProductoController extends BaseController {
 
         // Pasar los datos del producto al modelo
         model.addAttribute("producto", producto);
+        model.addAttribute("categoriasProducto", categoriaRepository.findAll());
 
         // Retornar la vista con las especificaciones
-        return "Products/especificacionesProducto";
+        return "Products/viewProducts";
     }
 
 }

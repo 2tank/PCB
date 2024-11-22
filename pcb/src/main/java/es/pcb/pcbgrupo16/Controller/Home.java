@@ -42,7 +42,7 @@ public class Home extends BaseController{
         return webRedirect;
     }
 
-    @PostMapping("/autenticar")
+    @PostMapping("/auth")
     public String autenticar(Model model, HttpSession session, @RequestParam String username, @RequestParam String password) {
 
         Usuario usuario = (Usuario) usuarioRepository.findByNombreAndContrasena(username, password);
