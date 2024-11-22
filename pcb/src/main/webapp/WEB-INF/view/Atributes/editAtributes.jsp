@@ -1,12 +1,15 @@
+<%@ page import="es.pcb.pcbgrupo16.Entities.Atributo" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    Atributo atributo = (Atributo) request.getAttribute("atributo");
+%>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CREATE NEW ATRIBUTE</title>
+    <title>EDIT ATRIBUTES</title>
     <link rel="stylesheet" href="styleCreateAtributes.css">
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,9 +53,9 @@
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
 <main>
-    <form action="/atributes/create" method="post">
+    <form action="/atributes/edit" method="post">
         <div class="atributes-form">
-            <div class="header">¡CREATE YOUR ATRIBUTE!</div>
+            <div class="header">¡EDIT YOUR ATRIBUTE!</div>
             <div class="atributes-details">
                 <div class="atributes-row">
                     <label class="label" for="nombre">Atribute Name: </label>

@@ -10,7 +10,7 @@
 
 <html>
 <head>
-    <title>Create Product</title>
+    <title>View Product</title>
     <link rel="stylesheet" href="crearProducto.css">
 
     <style>

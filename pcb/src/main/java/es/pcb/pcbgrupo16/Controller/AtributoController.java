@@ -5,6 +5,7 @@ import es.pcb.pcbgrupo16.Entities.Categoria;
 import es.pcb.pcbgrupo16.Entities.Cuenta;
 import es.pcb.pcbgrupo16.Entities.Usuario;
 import es.pcb.pcbgrupo16.Repository.AtributoRepository;
+import es.pcb.pcbgrupo16.Repository.AtributoUsuarioRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,10 @@ public class AtributoController extends BaseController {
     @Autowired
     public AtributoRepository atributoRepository;
 
+    @Autowired
+    public AtributoUsuarioRepository atributoUsuarioRepository;
+
+
     @GetMapping("/")
     public String listarProductos(Model model, HttpSession session) {
 
@@ -32,6 +37,41 @@ public class AtributoController extends BaseController {
         return "Atributes/listAtributes";
     }
 
+    @GetMapping("/delete")
+    public String eliminarcategoria(Model model, HttpSession session, @RequestParam("id") Integer id) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        if (usuario == null || usuario.getCuenta() == null) {
+            return "redirect:/login";
+        }
+
+        atributoUsuarioRepository.deleteAtributoById(id);
+        atributoRepository.deleteById(id);
+
+        List<Atributo> listaAtributos = atributoRepository.findAll();
+        model.addAttribute("atributos", listaAtributos);
+        return "Atributes/listAtributes";
+    }
+
+    @GetMapping("/create")
+    public String crearCategorias(Model model, HttpSession session) {
+        return "Atributes/createAtributes";
+    }
+
+    @PostMapping("/create")
+    public String crearCategorias(@ModelAttribute Categoria categoria, Model model, HttpSession session) {
+        return "Atributes/listAtributes";
+    }
+
+    @GetMapping("/edit")
+    public String editarCategorias(Model model, HttpSession session, @RequestParam("id") int id) {
+        model.addAttribute("atributo", atributoRepository.findById(id).orElse(null));
+        return "Atributes/createAtributes";
+    }
+
+    @PostMapping("/edit")
+    public String editarCategorias(@ModelAttribute Categoria categoria, Model model, HttpSession session) {
+        return "Atributes/listAtributes";
+    }
 //    @Autowired
 //    private AtributoService atributoService;
 //

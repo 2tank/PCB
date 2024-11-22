@@ -11,7 +11,7 @@
 
 <html>
 <head>
-    <title>Create Product</title>
+    <title>Edit Product</title>
     <link rel="stylesheet" href="crearProducto.css">
     <style>
         body {

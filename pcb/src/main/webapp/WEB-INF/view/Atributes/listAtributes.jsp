@@ -44,15 +44,15 @@
     <h1>ATRIBUTES</h1>
     <a href="/atributes/create" class="btn-create">Create New Product</a>
     <div class="atribute-list">
-        <h2>Categories List</h2>
+        <h2>ATRIBUTES LIST</h2>
         <%for(Atributo a:atributos){%>
         <div class="atribute-item">
             <div>
-                <a href="/categories/view?id=<%=a.getId()%>"> <strong> <%=a.getNombre()%></strong></a> | Tipo: <%=a.getTipo()%>| Contenido: <%=a.getContenido().getContenido()%>
+                <a href="/atributes/view?id=<%=a.getId()%>"> <strong> <%=a.getNombre()%></strong></a> | Tipo: <%=a.getTipo()%>| Contenido: <%=a.getContenido().getContenido()%>
             </div>
             <div>
-                <a href="/products/edit?id=<%=a.getId()%>">Edit</a> |
-                <a href="/products/delete?id=<%=a.getId()%>" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
+                <a href="/atributes/edit?id=<%=a.getId()%>">Edit</a> |
+                <a href="/atributes/delete?id=<%=a.getId()%>" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
             </div>
         </div>
         <%}%>
