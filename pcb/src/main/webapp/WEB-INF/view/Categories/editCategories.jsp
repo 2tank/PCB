@@ -52,19 +52,18 @@
 </head>
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
-<main>
-    <form action="/categories/edit" method="post">
-        <div class="category-form">
-            <div class="header">¡EDIT YOUR CATEGORIES!</div>
-            <div class="category-details">
-                <div class="category-row">
-                    <label class="label" for="nombre">product sku (<%=categoria.getId()%>): </label>
-                    <div class="value"><input type="text" id="nombre" name="nombre"></div>
-                </div>
+<form action="/categories/edit" method="post">
+    <input type="hidden" name="id" value="${categoria.id}">
+    <div class="category-form">
+        <div class="header">¡EDIT YOUR CATEGORIES!</div>
+        <div class="category-details">
+            <div class="category-row">
+                <label class="label" for="nombre">categoria sku (<%=categoria.getId()%>): </label>
+                <div class="value"><input type="text" id="nombre" name="nombre"></div>
             </div>
-            <button type="submit">CREATE</button>
         </div>
-    </form>
-</main>
+        <button type="submit">CREATE</button>
+    </div>
+</form>
 </body>
 </html>

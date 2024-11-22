@@ -76,6 +76,7 @@ public class ProductoController extends BaseController {
         producto.setFechaCreacion(LocalDate.now());
         producto.setFechaModificacion(LocalDate.now());
         productoRepository.save(producto);
+        model.addAttribute("productos",productoRepository.findAll());
         return "Products/listProducts";
     }
 
@@ -96,9 +97,10 @@ public class ProductoController extends BaseController {
         prod_mod.setFechaModificacion(producto.getFechaModificacion());
         prod_mod.setNombre(producto.getNombre());
         prod_mod.setFechaModificacion(producto.getFechaModificacion());
-        prod_mod.setCuenta(producto.getCuenta());
         producto.setThumnail(producto.getThumnail());
 
+        productoRepository.save(prod_mod);
+        model.addAttribute("productos",productoRepository.findAll());
         return "Products/listProducts";
     }
 

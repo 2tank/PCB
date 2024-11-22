@@ -68,20 +68,20 @@
         <div class="header">¡EDIT YOUR PRODUCTS!</div>
         <div class="product-details">
             <div class="product-row">
-                <label class="label" for="sku">product sku (<%=producto.getId()%>): </label>
-                <div class="value"><input type="text" id="sku" name="sku" required></div>
+                <label class="label" for="id">product sku (<%=producto.getId()%>): </label>
+                <div class="value"><input type="text" id="id" name="id" value="<%=producto.getId()%>" required></div>
             </div>
             <div class="product-row">
                 <label class="label" for="gtin">product gtin (<%=producto.getGtin()%>): </label>
-                <div class="value"><input type="text" id="gtin" name="gtin" required></div>
+                <div class="value"><input type="text" id="gtin" name="gtin" value="<%=producto.getGtin()%>" required></div>
             </div>
             <div class="product-row">
-                <label class="label" for="productTitle">product name (<%=producto.getNombre()%>): </label>
-                <div class="value"><input type="text" id="productTitle" name="productTitle" required></div>
+                <label class="label" for="nombre">product name (<%=producto.getNombre()%>): </label>
+                <div class="value"><input type="text" id="nombre" name="nombre" value="<%=producto.getNombre()%>" required></div>
             </div>
             <div class="product-row">
                 <label class="label" for="thumbnail">product thumbnail (<%=producto.getThumnail()%>): </label>
-                <div class="value"><input type="text" id="thumbnail" name="thumbnail" step="0.01" required> €</div>
+                <div class="value"><input type="text" id="thumbnail" name="thumbnail" step="0.01" value="<%=producto.getThumnail()%>" required> €</div>
             </div>
             <div class="product-row">
                 <label class="label" for="category">Categories: </label>

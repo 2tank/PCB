@@ -59,7 +59,7 @@ public class CategoriasController extends BaseController{
     @GetMapping("/edit")
     public String editarCategorias(Model model, HttpSession session, @RequestParam("id") int id) {
         model.addAttribute("categoria", categoriaRepository.findById(id).orElse(null));
-        return "Categories/createCategories";
+        return "Categories/editCategories";
     }
 
     @PostMapping("/edit")

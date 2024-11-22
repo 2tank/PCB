@@ -1,9 +1,6 @@
 package es.pcb.pcbgrupo16.Controller;
 
-import es.pcb.pcbgrupo16.Entities.Atributo;
-import es.pcb.pcbgrupo16.Entities.Categoria;
-import es.pcb.pcbgrupo16.Entities.Cuenta;
-import es.pcb.pcbgrupo16.Entities.Usuario;
+import es.pcb.pcbgrupo16.Entities.*;
 import es.pcb.pcbgrupo16.Repository.AtributoRepository;
 import es.pcb.pcbgrupo16.Repository.AtributoUsuarioRepository;
 import jakarta.servlet.http.HttpSession;
@@ -26,10 +23,8 @@ public class AtributoController extends BaseController {
 
 
     @GetMapping("/")
-    public String listarProductos(Model model, HttpSession session) {
+    public String listarAtributos(Model model, HttpSession session) {
 
-        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
-        Cuenta cuenta = usuario.getCuenta();
         List<Atributo> listaAtributos = atributoRepository.findAll();
 
         model.addAttribute("atributos", listaAtributos);
@@ -38,13 +33,13 @@ public class AtributoController extends BaseController {
     }
 
     @GetMapping("/delete")
-    public String eliminarcategoria(Model model, HttpSession session, @RequestParam("id") Integer id) {
+    public String eliminarAtributo(Model model, HttpSession session, @RequestParam("id") Integer id) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         if (usuario == null || usuario.getCuenta() == null) {
             return "redirect:/login";
         }
 
-        atributoUsuarioRepository.deleteAtributoById(id);
+        atributoUsuarioRepository.deleteAtributoById(id);//Borrar la tabla intermedia antes
         atributoRepository.deleteById(id);
 
         List<Atributo> listaAtributos = atributoRepository.findAll();
@@ -53,60 +48,87 @@ public class AtributoController extends BaseController {
     }
 
     @GetMapping("/create")
-    public String crearCategorias(Model model, HttpSession session) {
+    public String crearAtributo(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        if (usuario == null || usuario.getCuenta() == null) {
+            return "redirect:/login";
+        }
+        Cuenta cuenta = usuario.getCuenta();
+
         return "Atributes/createAtributes";
     }
 
     @PostMapping("/create")
-    public String crearCategorias(@ModelAttribute Categoria categoria, Model model, HttpSession session) {
+    public String crearAtributo(@RequestParam("nombre") String nombre, @RequestParam("tipo") String tipo, @RequestParam("contenido") String contenido, Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        if (usuario == null || usuario.getCuenta() == null) {
+            return "redirect:/login";
+        }
+        Cuenta cuenta = usuario.getCuenta();
+
+        Atributo atributo = new Atributo();
+
+        Contenido cont = new Contenido();
+        cont.setContenido(contenido);
+        contenidoRepository.save(cont);
+        cont = contenidoRepository.findAll().getLast();
+
+        atributo.setNombre(nombre);
+        atributo.setTipo(tipo);
+        atributo.setContenido(cont);
+
+        atributoRepository.save(atributo);
+
+        model .addAttribute("atributos", atributoRepository.findAll());
         return "Atributes/listAtributes";
     }
 
     @GetMapping("/edit")
-    public String editarCategorias(Model model, HttpSession session, @RequestParam("id") int id) {
+    public String editarAtributo(Model model, HttpSession session, @RequestParam("id") int id) {
         model.addAttribute("atributo", atributoRepository.findById(id).orElse(null));
         return "Atributes/createAtributes";
     }
 
     @PostMapping("/edit")
-    public String editarCategorias(@ModelAttribute Categoria categoria, Model model, HttpSession session) {
+    public String editarAtributo(@RequestParam("id") int id, @RequestParam("nombre") String nombre, @RequestParam("tipo") String tipo, @RequestParam("contenido") String contenido, Model model, HttpSession session) {
+        Atributo atributoMod = (Atributo) atributoRepository.findById(id).orElse(null);
+
+        Contenido cont = new Contenido();
+        cont.setContenido(contenido);
+        contenidoRepository.save(cont);
+        cont = contenidoRepository.findAll().getLast();
+
+        atributoMod.setNombre(nombre);
+        atributoMod.setTipo(tipo);
+        atributoMod.setContenido(cont);
+
+        atributoRepository.save(atributoMod);
         return "Atributes/listAtributes";
     }
-//    @Autowired
-//    private AtributoService atributoService;
-//
-//
-//    @GetMapping
-//    public List<AtributoUsuario> listarAtributos(){
-//        return atributoService.allAtributos();
-//    }
-//
-//    @GetMapping("/{id}")
-//    public AtributoUsuario getAtributo(@PathVariable float id){
-//        return atributoService.getAtributo(id);
-//        //TODO controloar fallos
-//    }
-//
-//    @PostMapping("/crearatr")
-//    public AtributoUsuario crearAtributo(@RequestBody AtributoUsuario atr){
-//        return atributoService.createAtribute(atr);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public void deleteAtributo(@PathVariable float id){
-//        return atributoService.deleteAtributo(id);
-//        // TODO controlar errores
-//
-//    }
-//
-//    @PutMapping("/{id}")
-//    public AtributoUsuario updateAtributo(@PathVariable float id, @RequestBody AtributoUsuario cosasnuevas ){
-//        AtributoUsuario atributo = atributoService.getAtributo(id);
-//
-//        atributo.setNombre(cosasnuevas.getNombre());
-//        atributo.setTipo(cosasnuevas.getTipo());
-//        return atributoService.createAtribute(atributo);
-//    }
 
+    @GetMapping("/view")
+    public String viewAtributo(Model model, HttpSession session, @RequestParam("id") Integer id) {
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        if (usuario == null || usuario.getCuenta() == null) {
+            return "redirect:/login";
+        }
+
+        // Buscar el atributo por ID
+        Atributo atributo = atributoRepository.findById(id).orElse(null);
+
+        // Verificar si el atributo existe
+        if (atributo == null) {
+            model.addAttribute("error", "El atributo no existe.");
+            return "Atributes/errorAtributo";
+        }
+
+        // Pasar los datos del atributo al modelo
+        model.addAttribute("atributo", atributo);
+
+
+        // Retornar la vista con las especificaciones
+        return "Atributes/viewAtributes";
+
+    }
 
 }

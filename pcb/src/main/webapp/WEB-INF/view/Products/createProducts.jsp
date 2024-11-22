@@ -69,8 +69,8 @@
                 <div class="value"><input type="text" id="gtin" name="gtin" required></div>
             </div>
             <div class="product-row">
-                <label class="label" for="productTitle">product name: </label>
-                <div class="value"><input type="text" id="productTitle" name="productTitle" required></div>
+                <label class="label" for="nombre">product name: </label>
+                <div class="value"><input type="text" id="nombre" name="nombre" required></div>
             </div>
             <div class="product-row">
                 <label class="label" for="thumbnail">product thumbnail: </label>

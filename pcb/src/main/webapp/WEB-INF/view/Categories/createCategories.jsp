@@ -50,7 +50,7 @@
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
 <main>
-    <form action="products/createProduct/" method="post">
+    <form action="categories/createCategories/" method="post">
         <div class="catergory-form">
             <div class="header">¡CREATE YOUR CATEGORY!</div>
             <div class="category-details">
