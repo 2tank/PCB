@@ -3,11 +3,13 @@ package es.pcb.pcbgrupo16.Controller;
 import es.pcb.pcbgrupo16.Entities.*;
 import es.pcb.pcbgrupo16.Repository.AtributoRepository;
 import es.pcb.pcbgrupo16.Repository.AtributoUsuarioRepository;
+import es.pcb.pcbgrupo16.Repository.ContenidoRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -20,6 +22,9 @@ public class AtributoController extends BaseController {
 
     @Autowired
     public AtributoUsuarioRepository atributoUsuarioRepository;
+
+    @Autowired
+    public ContenidoRepository contenidoRepository;
 
 
     @GetMapping("/")
@@ -91,7 +96,9 @@ public class AtributoController extends BaseController {
 
     @PostMapping("/edit")
     public String editarAtributo(@RequestParam("id") int id, @RequestParam("nombre") String nombre, @RequestParam("tipo") String tipo, @RequestParam("contenido") String contenido, Model model, HttpSession session) {
+        //TODO TERMINAR (LAS MANOS HACIA ARRIBA, LAS MANOS HACIA ABAJO Y COMO LOS GORILAS UUU UUU UUU)
         Atributo atributoMod = (Atributo) atributoRepository.findById(id).orElse(null);
+        Atributo a = atributoMod;
 
         Contenido cont = new Contenido();
         cont.setContenido(contenido);
@@ -102,7 +109,9 @@ public class AtributoController extends BaseController {
         atributoMod.setTipo(tipo);
         atributoMod.setContenido(cont);
 
+        atributoRepository.delete(a);
         atributoRepository.save(atributoMod);
+        model .addAttribute("atributos", atributoRepository.findAll());
         return "Atributes/listAtributes";
     }
 
