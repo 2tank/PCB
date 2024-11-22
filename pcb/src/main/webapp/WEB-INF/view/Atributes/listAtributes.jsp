@@ -41,7 +41,7 @@
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
 <div class="title">
-    <h1>Atributes</h1>
+    <h1>ATRIBUTES</h1>
     <a href="/atributes/create" class="btn-create">Create New Product</a>
     <div class="atribute-list">
         <h2>Categories List</h2>

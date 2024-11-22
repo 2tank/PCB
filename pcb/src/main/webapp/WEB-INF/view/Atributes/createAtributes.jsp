@@ -10,11 +10,25 @@
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
 <main>
-    <h1>Crear Nuevo Atributo</h1>
-    <form>
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre">
-        <button type="submit">Aceptar</button>
+    <form action="/products/create" method="post">
+        <div class="product-form">
+            <div class="header">¡CREATE YOUR ATRIBUTE!</div>
+            <div class="product-details">
+                <div class="product-row">
+                    <label class="label" for="nombre">Atribute Name: </label>
+                    <div class="value"><input type="text" id="nombre" name="nombre"></div>
+                </div>
+                <div class="product-row">
+                    <label class="label" for="tipo">Atribute type: </label>
+                    <div class="value"><input type="text" id="tipo" name="tipo" required></div>
+                </div>
+                <div class="product-row">
+                    <label class="label" for="contenido">Atribute contenido: </label>
+                    <div class="value"><input type="text" id="contenido" name="contenido" step="0.01" required></div>
+                </div>
+            </div>
+            <button type="submit">CREATE</button>
+        </div>
     </form>
 </main>
 </body>

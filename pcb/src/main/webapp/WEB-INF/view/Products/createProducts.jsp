@@ -60,14 +60,10 @@
 </head>
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
-<form action="products/createProduct/" method="post">
+<form action="/products/create" method="post">
     <div class="product-form">
         <div class="header">¡CREATE YOUR PRODUCTS!</div>
         <div class="product-details">
-            <div class="product-row">
-                <label class="label" for="sku">product sku: </label>
-                <div class="value"><input type="text" id="sku" name="sku" required></div>
-            </div>
             <div class="product-row">
                 <label class="label" for="gtin">product gtin: </label>
                 <div class="value"><input type="text" id="gtin" name="gtin" required></div>

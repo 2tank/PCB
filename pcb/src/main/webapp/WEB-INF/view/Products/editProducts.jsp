@@ -63,7 +63,7 @@
 </head>
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
-<form action="products/createProduct/" method="post">
+<form action="/products/edit" method="post">
     <div class="product-form">
         <div class="header">¡EDIT YOUR PRODUCTS!</div>
         <div class="product-details">

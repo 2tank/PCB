@@ -1,6 +1,5 @@
 package es.pcb.pcbgrupo16.Controller;
 
-
 import es.pcb.pcbgrupo16.Entities.Categoria;
 import es.pcb.pcbgrupo16.Entities.Cuenta;
 import es.pcb.pcbgrupo16.Entities.Producto;
@@ -65,7 +64,7 @@ public class ProductoController extends BaseController {
         return "Products/createProducts";
     }
 
-    @PostMapping("/createProduct")
+    @PostMapping("/create")
     public String crearProducto(@ModelAttribute Producto producto, Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         if (usuario == null || usuario.getCuenta() == null) {
@@ -89,7 +88,7 @@ public class ProductoController extends BaseController {
 
         return "Products/editProducts";
     }
-    @PostMapping("/editProduct")
+    @PostMapping("/edit")
     public String editarProducto(@ModelAttribute Producto producto/*Producto que he de modificar*/, Model model, HttpSession session){
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         Producto prod_mod = productoRepository.findById(producto.getId()).get();
