@@ -114,7 +114,7 @@ public class ProductoController extends BaseController {
         return "Products/editProducts";
     }
     @PostMapping("/edit")
-    public String editarProducto(@ModelAttribute Producto producto/*Producto que he de modificar*/, Model model, HttpSession session){
+    public String editarProducto(@ModelAttribute Producto producto/*Producto que he de modificar*/, Model model, HttpSession session, @RequestParam("category") Integer idCategoria){
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         Producto prod_mod = productoRepository.findById(producto.getId()).get();
 
@@ -122,6 +122,28 @@ public class ProductoController extends BaseController {
         prod_mod.setNombre(producto.getNombre());
         prod_mod.setFechaModificacion(producto.getFechaModificacion());
         producto.setThumnail(producto.getThumnail());
+
+        Categoria categoria = categoriaRepository.findById(idCategoria).orElse(null);
+        if (categoria == null) {
+            model.addAttribute("error", "Categoría no encontrada.");
+            return "Products/errorProducto"; // Si la categoría no existe, mostramos un error
+        }
+
+        // Creamos el ID embebido para la relación de Producto y Categoría
+        ProductocategoriaId productocategoriaId = new ProductocategoriaId();
+        productocategoriaId.setIdProducto(producto.getId());
+        productocategoriaId.setIdCategoria(idCategoria);
+
+        // Creamos el objeto Productocategoria
+        Productocategoria productocategoria = new Productocategoria();
+        productocategoria.setId(productocategoriaId); // Establecemos el ID embebido
+        productocategoria.setIdProducto(producto); // Establecemos la relación con Producto
+        productocategoria.setIdCategoria(categoria); // Establecemos la relación con Categoria
+
+        productoCategoriaRepository.deleteByIdProducto(producto.getId());
+
+        // Guardamos la relación en la tabla productocategoria
+        productoCategoriaRepository.save(productocategoria);
 
         productoRepository.save(prod_mod);
         model.addAttribute("productos",productoRepository.findAll());

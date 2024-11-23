@@ -1,10 +1,8 @@
 package es.pcb.pcbgrupo16.Controller;
 
-import es.pcb.pcbgrupo16.Entities.Categoria;
-import es.pcb.pcbgrupo16.Entities.Cuenta;
-import es.pcb.pcbgrupo16.Entities.Producto;
-import es.pcb.pcbgrupo16.Entities.Usuario;
+import es.pcb.pcbgrupo16.Entities.*;
 import es.pcb.pcbgrupo16.Repository.CategoriaRepository;
+import es.pcb.pcbgrupo16.Repository.ProductoCategoriaRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,6 +18,9 @@ public class CategoriasController extends BaseController{
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    @Autowired
+    private ProductoCategoriaRepository productoCategoriaRepository;
+
     // hay que asociar cuenta a categoria?
     @GetMapping("/")
     public String listarCategorias(Model model, HttpSession session) {
@@ -27,6 +28,11 @@ public class CategoriasController extends BaseController{
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         Cuenta cuenta = usuario.getCuenta();
         List<Categoria> listaCategorias = categoriaRepository.findAll();
+
+        for(Categoria c : listaCategorias) {
+            List<Productocategoria> productocategoria = productoCategoriaRepository.findByIdIdCategoria(c.getId());
+            c.setNumProductos(productocategoria.size());
+        }
 
         model.addAttribute("categorias", listaCategorias);
 
@@ -69,6 +75,9 @@ public class CategoriasController extends BaseController{
 
     @PostMapping("/edit")
     public String editarCategorias(@ModelAttribute Categoria categoria, Model model, HttpSession session) {
-        return "Categories/listCategories";
+
+        categoriaRepository.save(categoria);
+
+        return "redirect:/categories/";
     }
 }

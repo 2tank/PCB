@@ -53,7 +53,7 @@
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
 <form action="/categories/edit" method="post">
-    <input type="hidden" name="id" value="${categoria.id}">
+    <input type="hidden" id="id" name="id" value="${categoria.id}">
     <div class="category-form">
         <div class="header">¡EDIT YOUR CATEGORIES!</div>
         <div class="category-details">
