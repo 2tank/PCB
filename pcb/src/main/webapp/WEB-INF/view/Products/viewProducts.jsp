@@ -5,7 +5,10 @@
 
 <%
     Producto producto = (Producto) request.getAttribute("producto");
-    List<Categoria> categoriasProducto = (List<Categoria>) request.getAttribute("categoriasProducto");
+//    List<Categoria> categoriasProducto = (List<Categoria>) request.getAttribute("categoriasProducto");
+    Categoria categoria = (Categoria) request.getAttribute("categoriasProducto");
+    List<Categoria> categoriasProducto = new java.util.ArrayList<>();
+    categoriasProducto.add(categoria);
 %>
 
 <html>

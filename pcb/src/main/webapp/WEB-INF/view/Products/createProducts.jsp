@@ -80,7 +80,7 @@
                 <label class="label" for="category">Categories: </label>
                 <select id="category" name="category" class="label">
                 <%for(Categoria c:categoriasProducto){%>
-                <option value="categoria.getID()" class="value"><%=c.getNombre()%></option>
+                <option value="<%=c.getId()%>" class="value"><%=c.getNombre()%></option>
                 <%}%>
                 </select>
             </div>

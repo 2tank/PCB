@@ -50,13 +50,13 @@
 <body>
 <%@ include file = "../component/Navbar.jsp" %>
 <main>
-    <form action="categories/createCategories/" method="post">
+    <form action="/categories/create" method="post">
         <div class="catergory-form">
             <div class="header">¡CREATE YOUR CATEGORY!</div>
             <div class="category-details">
                 <div class="category-row">
-                    <label class="label" for="name">category name: </label>
-                    <div class="value"><input type="text" id="name" name="sku" required></div>
+                    <label class="label" for="category">category name: </label>
+                    <div class="value"><input type="text" id="category" name="category" required></div>
                 </div>
             </div>
             <button type="submit">CREATE</button>

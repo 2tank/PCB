@@ -1,10 +1,8 @@
 package es.pcb.pcbgrupo16.Controller;
 
-import es.pcb.pcbgrupo16.Entities.Categoria;
-import es.pcb.pcbgrupo16.Entities.Cuenta;
-import es.pcb.pcbgrupo16.Entities.Producto;
-import es.pcb.pcbgrupo16.Entities.Usuario;
+import es.pcb.pcbgrupo16.Entities.*;
 import es.pcb.pcbgrupo16.Repository.CategoriaRepository;
+import es.pcb.pcbgrupo16.Repository.ProductoCategoriaRepository;
 import es.pcb.pcbgrupo16.Repository.ProductoRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,8 @@ public class ProductoController extends BaseController {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    @Autowired
+    private ProductoCategoriaRepository productoCategoriaRepository;
 
     @GetMapping("/")
     public String listarProductos(Model model, HttpSession session) {
@@ -65,20 +65,44 @@ public class ProductoController extends BaseController {
     }
 
     @PostMapping("/create")
-    public String crearProducto(@ModelAttribute Producto producto, Model model, HttpSession session) {
+    public String crearProducto(@ModelAttribute Producto producto, Model model, HttpSession session, @RequestParam("category") Integer idCategoria) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         if (usuario == null || usuario.getCuenta() == null) {
             return "redirect:/login";
         }
-        Cuenta cuenta = usuario.getCuenta();
 
+        Cuenta cuenta = usuario.getCuenta();
+        System.out.println(producto.getNombre());
         producto.setCuenta(cuenta);
         producto.setFechaCreacion(LocalDate.now());
         producto.setFechaModificacion(LocalDate.now());
-        productoRepository.save(producto);
-        model.addAttribute("productos",productoRepository.findAll());
+        productoRepository.save(producto); // Guardamos el producto
+
+        // Obtenemos la categoría
+        Categoria categoria = categoriaRepository.findById(idCategoria).orElse(null);
+        if (categoria == null) {
+            model.addAttribute("error", "Categoría no encontrada.");
+            return "Products/errorProducto"; // Si la categoría no existe, mostramos un error
+        }
+
+        // Creamos el ID embebido para la relación de Producto y Categoría
+        ProductocategoriaId productocategoriaId = new ProductocategoriaId();
+        productocategoriaId.setIdProducto(producto.getId());
+        productocategoriaId.setIdCategoria(idCategoria);
+
+        // Creamos el objeto Productocategoria
+        Productocategoria productocategoria = new Productocategoria();
+        productocategoria.setId(productocategoriaId); // Establecemos el ID embebido
+        productocategoria.setIdProducto(producto); // Establecemos la relación con Producto
+        productocategoria.setIdCategoria(categoria); // Establecemos la relación con Categoria
+
+        // Guardamos la relación en la tabla productocategoria
+        productoCategoriaRepository.save(productocategoria);
+
+        model.addAttribute("productos", productoRepository.findAll());
         return "Products/listProducts";
     }
+
 
     @GetMapping("/edit")
     public String editarProducto(Model model, HttpSession session, @RequestParam("id") Integer id){
@@ -122,9 +146,16 @@ public class ProductoController extends BaseController {
             return "Products/errorProducto";
         }
 
+        List<Productocategoria> productocategorias = productoCategoriaRepository.findByIdIdProducto(id);
+
+        ProductocategoriaId categoria1 = productocategorias.getFirst().getId();
+        Categoria categoria11 = categoriaRepository.getById(categoria1.getIdCategoria());
+
+        System.out.println(categoria11.getNombre());
+
         // Pasar los datos del producto al modelo
         model.addAttribute("producto", producto);
-        model.addAttribute("categoriasProducto", categoriaRepository.findAll());
+        model.addAttribute("categoriasProducto", categoria11);
 
         // Retornar la vista con las especificaciones
         return "Products/viewProducts";

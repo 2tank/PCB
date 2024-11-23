@@ -47,13 +47,18 @@ public class CategoriasController extends BaseController{
     }
 
     @GetMapping("/create")
-    public String crearCategorias(Model model, HttpSession session) {
+    public String crearCategoriasForm(Model model, HttpSession session) {
         return "Categories/createCategories";
     }
 
     @PostMapping("/create")
-    public String crearCategorias(@ModelAttribute Categoria categoria, Model model, HttpSession session) {
-        return "Categories/listCategories";
+    public String crearCategorias(Model model, HttpSession session, @RequestParam("category") String category) {
+
+        Categoria categoria = new Categoria();
+        categoria.setNombre(category);
+        categoriaRepository.save(categoria);
+
+        return "redirect:/categories/";
     }
 
     @GetMapping("/edit")

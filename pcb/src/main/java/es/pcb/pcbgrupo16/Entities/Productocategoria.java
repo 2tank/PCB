@@ -42,4 +42,6 @@ public class Productocategoria {
         this.idCategoria = idCategoria;
     }
 
+
+
 }

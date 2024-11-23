@@ -1,14 +1,13 @@
 package es.pcb.pcbgrupo16.Entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "categoria")
 public class Categoria {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)  // Esta es la clave para autogenerar el id
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -18,10 +17,12 @@ public class Categoria {
     @Column(name = "numProductos")
     private Integer numProductos;
 
+    // Getters y Setters
     public Integer getId() {
         return id;
     }
 
+    // No es necesario establecer manualmente el id
     public void setId(Integer id) {
         this.id = id;
     }
@@ -41,5 +42,4 @@ public class Categoria {
     public void setNumProductos(Integer numProductos) {
         this.numProductos = numProductos;
     }
-
 }
