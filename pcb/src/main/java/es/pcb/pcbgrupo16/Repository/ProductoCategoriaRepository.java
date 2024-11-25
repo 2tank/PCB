@@ -25,4 +25,9 @@ public interface ProductoCategoriaRepository extends JpaRepository<Productocateg
     @Query(value = "DELETE FROM productocategoria WHERE idProducto = :idProducto", nativeQuery = true)
     void deleteByIdProducto(@Param("idProducto") Integer idProducto);
 
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM productocategoria WHERE idCategoria = :idCategoria", nativeQuery = true)
+    void deleteByIdCategoria(@Param("idCategoria") Integer idCategoria);
+
 }

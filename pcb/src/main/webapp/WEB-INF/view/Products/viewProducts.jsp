@@ -5,10 +5,7 @@
 
 <%
     Producto producto = (Producto) request.getAttribute("producto");
-//    List<Categoria> categoriasProducto = (List<Categoria>) request.getAttribute("categoriasProducto");
-    Categoria categoria = (Categoria) request.getAttribute("categoriasProducto");
-    List<Categoria> categoriasProducto = new java.util.ArrayList<>();
-    categoriasProducto.add(categoria);
+    List<Categoria> categoriasProducto = (List<Categoria>) request.getAttribute("categoriasProducto");
 %>
 
 <html>
@@ -86,11 +83,14 @@
             <div class="value">(<%=producto.getThumnail()%>)</div>
         </div>
         <div class="product-row">
-            <div class="label">Categories: (</div>
-            <%for(Categoria c:categoriasProducto){%>
-            <div class="value"><%=c.getNombre()%>, </div>
-            <%}%>
-            <div class="label">)</div>
+            <div class="label">Categories: </div>
+            <div class="value">
+                <% if (categoriasProducto != null && !categoriasProducto.isEmpty()) { %>
+                (<% for(Categoria c : categoriasProducto) { %><%= c.getNombre()%> <% } %>)
+                <% } else { %>
+                (No categories available)
+                <% } %>
+            </div>
         </div>
         <div class="product-row">
             <div class="label">product modification day: </div>

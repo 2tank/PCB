@@ -45,11 +45,13 @@ public class CategoriasController extends BaseController{
         if (usuario == null || usuario.getCuenta() == null) {
             return "redirect:/login";
         }
-        categoriaRepository.deleteById(id);
 
-        List<Categoria> listaCategories = categoriaRepository.findAll();
-        model.addAttribute("categorias", listaCategories);
-        return "Categories/listCategories";
+        Categoria categoria = categoriaRepository.findById(id).get();
+        productoCategoriaRepository.deleteByIdCategoria(id);
+        categoriaRepository.delete(categoria);
+        categoriaRepository.flush();
+
+        return "redirect:/categories/";
     }
 
     @GetMapping("/create")
@@ -80,4 +82,8 @@ public class CategoriasController extends BaseController{
 
         return "redirect:/categories/";
     }
+
+
+
+
 }

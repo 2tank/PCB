@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -169,15 +170,14 @@ public class ProductoController extends BaseController {
         }
 
         List<Productocategoria> productocategorias = productoCategoriaRepository.findByIdIdProducto(id);
-
-        ProductocategoriaId categoria1 = productocategorias.getFirst().getId();
-        Categoria categoria11 = categoriaRepository.getById(categoria1.getIdCategoria());
-
-        System.out.println(categoria11.getNombre());
-
-        // Pasar los datos del producto al modelo
+        List<Categoria> categorias = new ArrayList<>();
+        if(productocategorias.size()>0){
+            ProductocategoriaId categoria1 = productocategorias.getFirst().getId();
+            Categoria categoria11 = categoriaRepository.getById(categoria1.getIdCategoria());
+            categorias.add(categoria11);
+        }
+        model.addAttribute("categoriasProducto", categorias);
         model.addAttribute("producto", producto);
-        model.addAttribute("categoriasProducto", categoria11);
 
         // Retornar la vista con las especificaciones
         return "Products/viewProducts";

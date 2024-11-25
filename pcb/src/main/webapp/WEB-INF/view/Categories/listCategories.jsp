@@ -47,7 +47,7 @@
         <%for(Categoria c:categorias){%>
         <div class="category-item">
             <div>
-                <a href="/categories/view?id=<%=c.getId()%>"> <strong> <%=c.getNombre()%></strong></a> | NumProductos: <%=c.getNumProductos()%>|
+                <strong> <%=c.getNombre()%></strong>| NumProductos: <%=c.getNumProductos()%>|
             </div>
             <div>
                 <a href="/categories/edit?id=<%=c.getId()%>">Edit</a> |
