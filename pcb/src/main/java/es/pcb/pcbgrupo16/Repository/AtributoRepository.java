@@ -10,5 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface AtributoRepository extends JpaRepository<Atributo, Integer> {
+    @Query("SELECT a FROM Atributo a WHERE a.cuent = :cuenta")
+    List<Atributo> findAllByCuenta(@Param("cuenta") Cuenta cuenta);
 
 }

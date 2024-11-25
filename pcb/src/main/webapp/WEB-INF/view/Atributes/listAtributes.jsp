@@ -48,7 +48,7 @@
         <%for(Atributo a:atributos){%>
         <div class="atribute-item">
             <div>
-                <a href="/atributes/view?id=<%=a.getId()%>"> <strong> <%=a.getNombre()%></strong></a> | Tipo: <%=a.getTipo()%>| Contenido: <%=a.getContenido().getContenido()%>
+                <a href="/atributes/view?id=<%=a.getId()%>"> <strong> <%=a.getNombre()%></strong></a> | Tipo: <%=a.getTipo()%>
             </div>
             <div>
                 <a href="/atributes/edit?id=<%=a.getId()%>">Edit</a> |

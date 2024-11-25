@@ -2,7 +2,7 @@ package es.pcb.pcbgrupo16.Controller;
 
 import es.pcb.pcbgrupo16.Entities.*;
 import es.pcb.pcbgrupo16.Repository.AtributoRepository;
-import es.pcb.pcbgrupo16.Repository.AtributoUsuarioRepository;
+
 import es.pcb.pcbgrupo16.Repository.ContenidoRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +21,17 @@ public class AtributoController extends BaseController {
     public AtributoRepository atributoRepository;
 
     @Autowired
-    public AtributoUsuarioRepository atributoUsuarioRepository;
-
-    @Autowired
     public ContenidoRepository contenidoRepository;
+
 
 
     @GetMapping("/")
     public String listarAtributos(Model model, HttpSession session) {
 
-        List<Atributo> listaAtributos = atributoRepository.findAll();
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        Cuenta cuenta = usuario.getCuenta();
+
+        List<Atributo> listaAtributos = atributoRepository.findAllByCuenta(cuenta);
 
         model.addAttribute("atributos", listaAtributos);
 
@@ -44,12 +45,13 @@ public class AtributoController extends BaseController {
             return "redirect:/login";
         }
 
-        atributoUsuarioRepository.deleteAtributoById(id);//Borrar la tabla intermedia antes
+        contenidoRepository.deleteByAtributo(id);
         atributoRepository.deleteById(id);
 
-        List<Atributo> listaAtributos = atributoRepository.findAll();
-        model.addAttribute("atributos", listaAtributos);
-        return "Atributes/listAtributes";
+//        List<Atributo> listaAtributos = atributoRepository.findAll();
+//        model.addAttribute("atributos", listaAtributos);
+//        return "Atributes/listAtributes";
+        return "redirect:/atributes/";
     }
 
     @GetMapping("/create")
@@ -64,7 +66,7 @@ public class AtributoController extends BaseController {
     }
 
     @PostMapping("/create")
-    public String crearAtributo(@RequestParam("nombre") String nombre, @RequestParam("tipo") String tipo, @RequestParam("contenido") String contenido, Model model, HttpSession session) {
+    public String crearAtributo(@RequestParam("nombre") String nombre, @RequestParam("tipo") String tipo, Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         if (usuario == null || usuario.getCuenta() == null) {
             return "redirect:/login";
@@ -73,14 +75,11 @@ public class AtributoController extends BaseController {
 
         Atributo atributo = new Atributo();
 
-        Contenido cont = new Contenido();
-        cont.setContenido(contenido);
-        contenidoRepository.save(cont);
-        cont = contenidoRepository.findAll().getLast();
-
         atributo.setNombre(nombre);
         atributo.setTipo(tipo);
-        atributo.setContenido(cont);
+
+
+        atributo.setCuent(cuenta);
 
         atributoRepository.save(atributo);
 
@@ -95,19 +94,17 @@ public class AtributoController extends BaseController {
     }
 
     @PostMapping("/edit")
-    public String editarAtributo(@RequestParam("id") int id, @RequestParam("nombre") String nombre, @RequestParam("tipo") String tipo, @RequestParam("contenido") String contenido, Model model, HttpSession session) {
+    public String editarAtributo(@RequestParam("id") int id, @RequestParam("nombre") String nombre, @RequestParam("tipo") String tipo, Model model, HttpSession session) {
         //TODO TERMINAR (LAS MANOS HACIA ARRIBA, LAS MANOS HACIA ABAJO Y COMO LOS GORILAS UUU UUU UUU)
         Atributo atributoMod = (Atributo) atributoRepository.findById(id).orElse(null);
         Atributo a = atributoMod;
 
         Contenido cont = new Contenido();
-        cont.setContenido(contenido);
         contenidoRepository.save(cont);
         cont = contenidoRepository.findAll().getLast();
 
         atributoMod.setNombre(nombre);
         atributoMod.setTipo(tipo);
-        atributoMod.setContenido(cont);
 
         atributoRepository.delete(a);
         atributoRepository.save(atributoMod);

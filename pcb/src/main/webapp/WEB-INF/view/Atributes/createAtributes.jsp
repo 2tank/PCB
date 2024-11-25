@@ -62,10 +62,6 @@
                     <label class="label" for="tipo">Atribute type: </label>
                     <div class="value"><input type="text" id="tipo" name="tipo" required></div>
                 </div>
-                <div class="atributes-row">
-                    <label class="label" for="contenido">Atribute contenido: </label>
-                    <div class="value"><input type="text" id="contenido" name="contenido" step="0.01" required></div>
-                </div>
             </div>
             <button type="submit">CREATE</button>
         </div>

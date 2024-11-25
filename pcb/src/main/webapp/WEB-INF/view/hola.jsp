@@ -3,16 +3,29 @@
   User: adriubuntu
   Date: 19/11/24
   Time: 18:50
-  To change this template use File | Settings | File Templates.
+  Template adjusted for readability and structure.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-
-<h1>Hello world!</h1>
-
+<h1>TUS MUERTOS EMPALADOS EN MIERDA</h1>
 </body>
 </html>

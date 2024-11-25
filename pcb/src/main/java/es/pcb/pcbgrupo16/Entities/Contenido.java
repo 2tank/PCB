@@ -13,6 +13,14 @@ public class Contenido {
     @Column(name = "contenido")
     private String contenido;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "atributo")
+    private Atributo atributo;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "producto")
+    private Producto producto;
+
     public Integer getId() {
         return id;
     }
@@ -27,6 +35,22 @@ public class Contenido {
 
     public void setContenido(String contenido) {
         this.contenido = contenido;
+    }
+
+    public Atributo getAtributo() {
+        return atributo;
+    }
+
+    public void setAtributo(Atributo atributo) {
+        this.atributo = atributo;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
 }
