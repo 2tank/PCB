@@ -94,12 +94,13 @@ public class AtributoController extends BaseController {
     }
 
     @PostMapping("/edit")
-    public String editarAtributo(@RequestParam("id") int id, @RequestParam("nombre") String nombre, @RequestParam("tipo") String tipo, Model model, HttpSession session) {
+    public String editarAtributo(@RequestParam("id") int id, @RequestParam("nombre") String nombre, @RequestParam("tipo") String tipo, @RequestParam("contenido") String contenido, Model model, HttpSession session) {
         //TODO TERMINAR (LAS MANOS HACIA ARRIBA, LAS MANOS HACIA ABAJO Y COMO LOS GORILAS UUU UUU UUU)
         Atributo atributoMod = (Atributo) atributoRepository.findById(id).orElse(null);
         Atributo a = atributoMod;
 
         Contenido cont = new Contenido();
+        cont.setContenido(contenido);
         contenidoRepository.save(cont);
         cont = contenidoRepository.findAll().getLast();
 
