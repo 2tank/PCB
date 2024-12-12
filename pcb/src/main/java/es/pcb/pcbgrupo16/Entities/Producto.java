@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.*;
-import java.util.Set;
-
 @Entity
 @Table(name = "producto")
 public class Producto {
@@ -34,11 +31,6 @@ public class Producto {
     @JoinColumn(name = "cuenta", nullable = false)
     private Cuenta cuenta;
 
-    // Relación muchos a muchos a través de la entidad intermedia
-    @OneToMany(mappedBy = "idProducto", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Productocategoria> productocategorias;
-
-    // Getters y setters
     public Integer getId() {
         return id;
     }
@@ -95,11 +87,4 @@ public class Producto {
         this.cuenta = cuenta;
     }
 
-    public Set<Productocategoria> getProductocategorias() {
-        return productocategorias;
-    }
-
-    public void setProductocategorias(Set<Productocategoria> productocategorias) {
-        this.productocategorias = productocategorias;
-    }
 }

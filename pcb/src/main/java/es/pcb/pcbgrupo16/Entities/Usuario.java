@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "usuario")
 public class Usuario {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -21,8 +22,8 @@ public class Usuario {
     @Column(name = "avatar")
     private String avatar;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cuenta_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "cuenta_id", nullable = false)
     private Cuenta cuenta;
 
     @Column(name = "rol")

@@ -71,8 +71,6 @@
         <a href="/atributes/">ATTRIBUTES</a>
     </nav>
     <div class="col">
-        <div class="logo">
-            <button class="image-button profile-icon"></button>
-        </div>
+            <a href="/account/view?id=<%= usuario.getCuenta().getId() %>"> <button class="image-button profile-icon"></button> </a>
     </div>
 </header>

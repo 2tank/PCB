@@ -1,14 +1,14 @@
 package es.pcb.pcbgrupo16.Entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "cuenta")
 public class Cuenta {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -16,7 +16,7 @@ public class Cuenta {
     private String nombre;
 
     @Column(name = "fechaDeCreacion")
-    private Instant fechaDeCreacion;
+    private LocalDate fechaDeCreacion;
 
     @Column(name = "avatar")
     private String avatar;
@@ -44,11 +44,11 @@ public class Cuenta {
         this.nombre = nombre;
     }
 
-    public Instant getFechaDeCreacion() {
+    public LocalDate getFechaDeCreacion() {
         return fechaDeCreacion;
     }
 
-    public void setFechaDeCreacion(Instant fechaDeCreacion) {
+    public void setFechaDeCreacion(LocalDate fechaDeCreacion) {
         this.fechaDeCreacion = fechaDeCreacion;
     }
 

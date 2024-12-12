@@ -19,7 +19,7 @@ public class Contenido {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto")
-    private Producto producto;
+    private es.pcb.pcbgrupo16.Entities.Producto producto;
 
     public Integer getId() {
         return id;
@@ -45,11 +45,11 @@ public class Contenido {
         this.atributo = atributo;
     }
 
-    public Producto getProducto() {
+    public es.pcb.pcbgrupo16.Entities.Producto getProducto() {
         return producto;
     }
 
-    public void setProducto(Producto producto) {
+    public void setProducto(es.pcb.pcbgrupo16.Entities.Producto producto) {
         this.producto = producto;
     }
 

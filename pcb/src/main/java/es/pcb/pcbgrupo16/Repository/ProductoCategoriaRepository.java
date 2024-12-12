@@ -1,7 +1,5 @@
 package es.pcb.pcbgrupo16.Repository;
 
-import es.pcb.pcbgrupo16.Entities.Cuenta;
-import es.pcb.pcbgrupo16.Entities.Categoria;
 import es.pcb.pcbgrupo16.Entities.*;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;

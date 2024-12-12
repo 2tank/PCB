@@ -1,8 +1,6 @@
 package es.pcb.pcbgrupo16.Controller;
 
-
-import es.pcb.pcbgrupo16.Entities.Cuenta;
-import es.pcb.pcbgrupo16.Entities.Usuario;
+import es.pcb.pcbgrupo16.Entities.*;
 import es.pcb.pcbgrupo16.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;

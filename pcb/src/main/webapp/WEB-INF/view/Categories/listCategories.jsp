@@ -41,7 +41,7 @@
 <%@ include file = "../component/Navbar.jsp" %>
 <div class="title">
     <h1>CATEGORIES</h1>
-    <a href="/categories/create" class="btn-create">Create New Product</a> <!-- TODO porque no es como el create de product???, a esta no se le puede poner el categories delante porque lo añade x2-->
+    <a href="/categories/create" class="btn-create">Create New Category</a> <!-- TODO porque no es como el create de product???, a esta no se le puede poner el categories delante porque lo añade x2-->
     <div class="category-list">
         <h2>Categories List</h2>
         <%for(Categoria c:categorias){%>

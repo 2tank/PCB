@@ -18,7 +18,11 @@ public class Atributo {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cuent_id")
-    private Cuenta cuent;
+    private es.pcb.pcbgrupo16.Entities.Cuenta cuent;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "contenido")
+    private es.pcb.pcbgrupo16.Entities.Contenido contenido;
 
     public Integer getId() {
         return id;
@@ -44,12 +48,20 @@ public class Atributo {
         this.tipo = tipo;
     }
 
-    public Cuenta getCuent() {
+    public es.pcb.pcbgrupo16.Entities.Cuenta getCuent() {
         return cuent;
     }
 
-    public void setCuent(Cuenta cuent) {
+    public void setCuent(es.pcb.pcbgrupo16.Entities.Cuenta cuent) {
         this.cuent = cuent;
+    }
+
+    public es.pcb.pcbgrupo16.Entities.Contenido getContenido() {
+        return contenido;
+    }
+
+    public void setContenido(es.pcb.pcbgrupo16.Entities.Contenido contenido) {
+        this.contenido = contenido;
     }
 
 }

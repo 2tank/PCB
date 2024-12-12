@@ -42,7 +42,7 @@
 <%@ include file = "../component/Navbar.jsp" %>
 <div class="title">
     <h1>ATRIBUTES</h1>
-    <a href="/atributes/create" class="btn-create">Create New Product</a>
+    <a href="/atributes/create" class="btn-create">Create New Atribute</a>
     <div class="atribute-list">
         <h2>ATRIBUTES LIST</h2>
         <%for(Atributo a:atributos){%>
