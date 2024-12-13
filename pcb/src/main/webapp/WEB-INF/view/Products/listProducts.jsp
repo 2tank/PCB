@@ -49,7 +49,7 @@
   <%for(Producto p:productos){%>
   <div class="product-item">
     <div>
-      <a href="/products/view?id=<%=p.getId()%>"> <strong> <%=p.getNombre()%></strong></a> | GTIN: <%=p.getGtin()%>  | NombreCuenta: <%=p.getCuenta().getNombre()%>
+      <a href="/products/view?id=<%=p.getId()%>"> <strong> <%=p.getNombre()%></strong></a> | GTIN: <%=p.getGtin()%>  | AccountName: <%=p.getCuenta().getNombre()%>
     </div>
     <div>
       <a href="/products/edit?id=<%=p.getId()%>">Edit</a> |

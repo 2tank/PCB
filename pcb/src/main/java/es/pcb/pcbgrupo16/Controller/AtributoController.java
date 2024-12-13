@@ -83,14 +83,14 @@ public class AtributoController extends BaseController {
 
         atributoRepository.save(atributo);
 
-        model .addAttribute("atributos", atributoRepository.findAll());
+        model.addAttribute("atributos", atributoRepository.findAll());
         return "Atributes/listAtributes";
     }
 
     @GetMapping("/edit")
     public String editarAtributo(Model model, HttpSession session, @RequestParam("id") int id) {
         model.addAttribute("atributo", atributoRepository.findById(id).orElse(null));
-        return "Atributes/createAtributes";
+        return "Atributes/editAtributes";
     }
 
     @PostMapping("/edit")

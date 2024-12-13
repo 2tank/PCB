@@ -61,9 +61,10 @@ public class CategoriasController extends BaseController{
 
     @PostMapping("/create")
     public String crearCategorias(Model model, HttpSession session, @RequestParam("category") String category) {
-
+        Cuenta c = ((Usuario)session.getAttribute("usuarioSesion")).getCuenta();
         Categoria categoria = new Categoria();
         categoria.setNombre(category);
+        categoria.setCuenta(c);
         categoriaRepository.save(categoria);
 
         return "redirect:/categories/";

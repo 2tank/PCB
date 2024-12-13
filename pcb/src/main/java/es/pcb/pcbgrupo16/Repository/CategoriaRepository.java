@@ -8,4 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
+    @Query("SELECT a FROM Categoria a WHERE a.cuenta = :cuenta")
+    List<Categoria> findAllByCuenta(@Param("cuenta") Cuenta cuenta);
 }

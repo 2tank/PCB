@@ -69,6 +69,8 @@
         <a href="/products/">PRODUCTS</a>
         <a href="/categories/">CATEGORIES</a>
         <a href="/atributes/">ATTRIBUTES</a>
+        <a>EXPORT</a>
+        <a href="/relationships/">RELATIONSHIP</a>
     </nav>
     <div class="col">
             <a href="/account/view?id=<%= usuario.getCuenta().getId() %>"> <button class="image-button profile-icon"></button> </a>

@@ -48,6 +48,7 @@ public class ProductoController extends BaseController {
         if (usuario == null || usuario.getCuenta() == null) {
             return "redirect:/login";
         }
+        productoCategoriaRepository.deleteByIdProducto(id);
         contenidoRepository.deleteByProducto(id);
         productoRepository.deleteById(id);
         Cuenta cuenta = usuario.getCuenta();

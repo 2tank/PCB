@@ -5,17 +5,17 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "relacion")
 public class Relacion {
-    @EmbeddedId
-    private RelacionId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
-    @MapsId("prod1")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "prod1", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prod1")
     private Producto prod1;
 
-    @MapsId("prod2")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "prod2", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prod2")
     private Producto prod2;
 
     @Column(name = "name", nullable = false, length = 45)
@@ -25,11 +25,11 @@ public class Relacion {
     @JoinColumn(name = "cuenta", nullable = false)
     private Cuenta cuenta;
 
-    public RelacionId getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(RelacionId id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
