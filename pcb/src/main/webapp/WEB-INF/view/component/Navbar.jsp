@@ -69,7 +69,7 @@
         <a href="/products/">PRODUCTS</a>
         <a href="/categories/">CATEGORIES</a>
         <a href="/atributes/">ATTRIBUTES</a>
-        <a>EXPORT</a>
+        <a href="/exports/">EXPORT</a>
         <a href="/relationships/">RELATIONSHIP</a>
     </nav>
     <div class="col">

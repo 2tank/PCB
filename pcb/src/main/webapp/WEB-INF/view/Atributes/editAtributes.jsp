@@ -57,20 +57,28 @@
         <div class="atributes-form">
             <div class="header">¡EDIT YOUR ATRIBUTE!</div>
             <div class="atributes-details">
+                <%-- Campo oculto para pasar el ID del atributo --%>
+                <input type="hidden" name="id" value="<%= atributo != null ? atributo.getId() : "" %>">
+
                 <div class="atributes-row">
                     <label class="label" for="nombre">Atribute Name: </label>
-                    <div class="value"><input type="text" id="nombre" name="nombre"></div>
+                    <div class="value">
+                        <input type="text" id="nombre" name="nombre" value="<%= atributo != null ? atributo.getNombre() : "" %>" required>
+                    </div>
                 </div>
                 <div class="atributes-row">
-                    <label class="label" for="tipo">Atribute type: </label>
-                    <div class="value"><input type="text" id="tipo" name="tipo" required></div>
-                </div>
-                <div class="atributes-row">
-                    <label class="label" for="contenido">Atribute contenido: </label>
-                    <div class="value"><input type="text" id="contenido" name="contenido" step="0.01" required></div>
+                    <label class="label" for="tipo">Atribute Type: </label>
+                    <div class="value">
+                        <select id="tipo" name="tipo" required>
+                            <option value="" disabled <%= atributo == null ? "selected" : "" %>>Select type</option>
+                            <option value="String" <%= atributo != null && "String".equals(atributo.getTipo()) ? "selected" : "" %>>String</option>
+                            <option value="Integer" <%= atributo != null && "Integer".equals(atributo.getTipo()) ? "selected" : "" %>>Integer</option>
+                            <option value="Double" <%= atributo != null && "Double".equals(atributo.getTipo()) ? "selected" : "" %>>Double</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-            <button type="submit">CREATE</button>
+            <button type="submit">EDIT</button>
         </div>
     </form>
 </main>

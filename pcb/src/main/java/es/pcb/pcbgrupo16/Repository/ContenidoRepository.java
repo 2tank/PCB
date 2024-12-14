@@ -23,4 +23,7 @@ public interface ContenidoRepository extends JpaRepository<Contenido, Integer> {
     @Transactional
     @Query("DELETE FROM Contenido c WHERE c.producto.id = :producto")
     void deleteByProducto(@Param("producto") int producto);
+
+    @Query(value = "SELECT c FROM Contenido c WHERE c.producto.id = :idproducto AND c.atributo.id = :idatributo")
+    Contenido findByAtributoAndId(@Param("idatributo") Integer idatributo, @Param("idproducto") Integer idproducto);
 }

@@ -13,4 +13,7 @@ public interface AtributoRepository extends JpaRepository<Atributo, Integer> {
     @Query("SELECT a FROM Atributo a WHERE a.cuent = :cuenta")
     List<Atributo> findAllByCuenta(@Param("cuenta") Cuenta cuenta);
 
+    @Query("SELECT a FROM Atributo a WHERE a.cuent.id = :cuentaId AND a.tipo IN ('Integer', 'Double') ORDER BY a.id ASC")
+    Atributo findByCuentaAndIntegerOrDouble(@Param("cuentaId") Integer cuentaId);
+
 }

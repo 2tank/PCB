@@ -60,7 +60,14 @@
                 </div>
                 <div class="atributes-row">
                     <label class="label" for="tipo">Atribute type: </label>
-                    <div class="value"><input type="text" id="tipo" name="tipo" required></div>
+                    <div class="value">
+                        <select id="tipo" name="tipo" required>
+                            <option value="" disabled selected>Select type</option>
+                            <option value="String">String</option>
+                            <option value="Integer">Integer</option>
+                            <option value="Double">Double</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <button type="submit">CREATE</button>
