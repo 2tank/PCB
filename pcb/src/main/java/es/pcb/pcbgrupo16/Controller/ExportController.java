@@ -104,32 +104,32 @@ public class ExportController extends BaseController{
                 String[] encabezados = {"SKU", "Title", "Fulfilled By", "Amazon_SKU", "Price", "Offer Primer"};
                 csvWriter.writeHeader(encabezados);
 
-
                 for (Integer i : productosSeleccionados) {
 
                     Producto p = productoRepository.findById(i).orElse(null);
                     Contenido contenido = contenidoRepository.findByAtributoAndId(atributoSeleccionado.getId(), i);
+                    if(contenido != null){
+                        String nombreProducto = p.getNombre();
+                        String nombreCuenta = cuenta.getNombre();
+                        Integer gtin = p.getGtin();
+                        String contenidoString = contenido.getContenido();
+                        boolean offerPrimer = false;
 
-                    String nombreProducto = p.getNombre();
-                    String nombreCuenta = cuenta.getNombre();
-                    Integer gtin = p.getGtin();
-                    String contenidoString = contenido.getContenido();
-                    boolean offerPrimer = false;
+                        csvWriter.write(Arrays.asList(i, nombreProducto, nombreCuenta, gtin, contenidoString, offerPrimer));
 
-                    csvWriter.write(Arrays.asList(i, nombreProducto, nombreCuenta, gtin, contenidoString, offerPrimer));
-
-                    csvBuilder.append(i)
-                            .append(",")
-                            .append(nombreProducto)
-                            .append(",")
-                            .append(nombreCuenta)
-                            .append(",")
-                            .append(gtin)
-                            .append(",")
-                            .append(contenidoString)
-                            .append(",")
-                            .append(offerPrimer)
-                            .append("\n");
+                        csvBuilder.append(i)
+                                .append(",")
+                                .append(nombreProducto)
+                                .append(",")
+                                .append(nombreCuenta)
+                                .append(",")
+                                .append(gtin)
+                                .append(",")
+                                .append(contenidoString)
+                                .append(",")
+                                .append(offerPrimer)
+                                .append("\n");
+                    }
                 }
                 model.addAttribute("csv", csvBuilder.toString());
                 return "Export/showCsv";

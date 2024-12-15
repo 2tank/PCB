@@ -49,10 +49,14 @@ public class RelacionController extends BaseController{
     }
 
     @GetMapping("/create")
-    public String crearProducto(Model model, HttpSession session) {
+    public String crearRelacion(Model model, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
         if (usuario == null || usuario.getCuenta() == null) {
             return "redirect:/login";
+        }
+        List<Relacion> relaciones = relacionRepository.findAllByCuenta(usuario.getCuenta());
+        if(relaciones != null && relaciones.size() >= 3){
+            return "redirect:/relationships/";
         }
         Cuenta cuenta = usuario.getCuenta();
 
@@ -64,7 +68,7 @@ public class RelacionController extends BaseController{
     }
 
     @PostMapping("/create")
-    public String crearProducto(Model model, HttpSession session,
+    public String crearRelacion(Model model, HttpSession session,
                                 @RequestParam("nombre") String nombre,
                                 @RequestParam("producto1") Integer id1,
                                 @RequestParam("producto2") Integer id2){
@@ -112,7 +116,6 @@ public class RelacionController extends BaseController{
         if((p1 == null && p2 != null) || (p1 != null && p2 == null)){
             return "redirect:/relationships/edit?id="+id;
         }
-
 
         rel_mod.setName(nombre);
         rel_mod.setProd1(p1);

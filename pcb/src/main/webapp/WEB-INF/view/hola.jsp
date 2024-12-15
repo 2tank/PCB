@@ -26,6 +26,5 @@
     </style>
 </head>
 <body>
-<h1>TUS MUERTOS EMPALADOS EN MIERDA</h1>
 </body>
 </html>

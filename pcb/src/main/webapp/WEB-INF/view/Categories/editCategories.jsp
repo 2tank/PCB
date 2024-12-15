@@ -58,11 +58,11 @@
         <div class="header">¡EDIT YOUR CATEGORIES!</div>
         <div class="category-details">
             <div class="category-row">
-                <label class="label" for="nombre">categoria sku (<%=categoria.getId()%>): </label>
+                <label class="label" for="nombre">Name: </label>
                 <div class="value"><input type="text" id="nombre" name="nombre"></div>
             </div>
         </div>
-        <button type="submit">CREATE</button>
+        <button type="submit">EDIT</button>
     </div>
 </form>
 </body>

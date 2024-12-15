@@ -56,6 +56,10 @@ public class CategoriasController extends BaseController{
 
     @GetMapping("/create")
     public String crearCategoriasForm(Model model, HttpSession session) {
+        Usuario u = (Usuario) session.getAttribute("usuarioSesion");
+        List<Categoria> c = categoriaRepository.findAllByCuenta(u.getCuenta());
+        if(c != null && c.size() >= 3) return "redirect:/categories/";
+
         return "Categories/createCategories";
     }
 

@@ -1,18 +1,22 @@
 <%@ page import="java.util.List" %>
-<%@ page import="es.pcb.pcbgrupo16.Entities.Categoria" %>
-<%@ page import="es.pcb.pcbgrupo16.Entities.Producto" %>
+<%@ page import="es.pcb.pcbgrupo16.Repository.ContenidoRepository" %>
+<%@ page import="es.pcb.pcbgrupo16.Entities.*" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%
     List<Categoria> categorias = (List<Categoria>) request.getAttribute("categorias");
     Producto producto = (Producto) request.getAttribute("producto");
     List<Categoria> categoriasProducto = (List<Categoria>) request.getAttribute("categoriasProducto");
+    List<Atributo> atributos = (List<Atributo>) request.getAttribute("atributos");
+    List<Object[]> tuplaAC = (List<Object[]>) request.getAttribute("tuplaAC");
 %>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Product</title>
-    <link rel="stylesheet" href="crearProducto.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,80 +24,113 @@
             margin: 20px;
         }
         .product-container {
-            max-width: 600px;
+            max-width: 800px;
             margin: 0 auto;
             background: #fff;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            overflow: hidden;
+            padding: 20px;
         }
         .header {
-            background-color: #F37CD099;
-            color: #fff;
+            background-color: #f37cd0;
+            color: white;
             text-align: center;
             padding: 15px;
             font-size: 1.5em;
+            border-radius: 8px 8px 0 0;
         }
         .product-details {
-            padding: 20px;
+            margin-top: 20px;
         }
         .product-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #ddd;
+            align-items: center;
+            margin-bottom: 15px;
         }
-        .product-row:last-child {
-            border-bottom: none;
-        }
-        .label {
+        .product-row label {
             font-weight: bold;
-            color: #555;
-        }
-        .value {
             color: #333;
-            text-align: right;
+            flex: 1;
         }
-        .thumbnail img {
-            display: block;
-            max-width: 100%;
-            margin: 10px auto;
+        .product-row input, .product-row select {
+            flex: 2;
+            padding: 5px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-<%@ include file = "../component/Navbar.jsp" %>
-<form action="/products/edit" method="post">
-    <div class="product-form">
-        <div class="header">¡EDIT YOUR PRODUCTS!</div>
+<%@ include file="../component/Navbar.jsp" %>
+<div class="product-container">
+    <div class="header">Edit Product</div>
+    <form action="/products/edit" method="post">
         <div class="product-details">
+            <!-- Fixed fields -->
             <div class="product-row">
-                <label class="label" for="id">product sku (<%=producto.getId()%>): </label>
-                <div class="value"><input type="text" id="id" name="id" value="<%=producto.getId()%>" required></div>
+                <label for="id">SKU:</label>
+                <input type="text" id="id" name="id" value="<%= producto.getId() %>" readonly>
             </div>
             <div class="product-row">
-                <label class="label" for="gtin">product gtin (<%=producto.getGtin()%>): </label>
-                <div class="value"><input type="text" id="gtin" name="gtin" value="<%=producto.getGtin()%>" required></div>
+                <label for="gtin">GTIN:</label>
+                <input type="text" id="gtin" name="gtin" value="<%= producto.getGtin() %>" required>
             </div>
             <div class="product-row">
-                <label class="label" for="nombre">product name (<%=producto.getNombre()%>): </label>
-                <div class="value"><input type="text" id="nombre" name="nombre" value="<%=producto.getNombre()%>" required></div>
+                <label for="nombre">Name:</label>
+                <input type="text" id="nombre" name="nombre" value="<%= producto.getNombre() %>" required>
             </div>
             <div class="product-row">
-                <label class="label" for="thumbnail">product thumbnail (<%=producto.getThumnail()%>): </label>
-                <div class="value"><input type="text" id="thumbnail" name="thumbnail" step="0.01" value="<%=producto.getThumnail()%>" required> €</div>
+                <label for="thumbnail">Thumbnail:</label>
+                <input type="text" id="thumbnail" name="thumbnail" value="<%= producto.getThumnail() %>" required>
             </div>
             <div class="product-row">
-                <label class="label" for="category">Categories: </label>
-                <select id="category" name="category" class="label">
-                    <%for(Categoria c:categoriasProducto){%>
-                    <option value="<%=c.getId()%>" id="category" class="category"><%=c.getNombre()%></option>
-                    <%}%>
+                <label for="category">Categories:</label>
+                <select id="category" name="category" required>
+                    <% for (Categoria categoria : categorias) { %>
+                    <option value="<%= categoria.getId() %>" <%= categoriasProducto.contains(categoria) ? "selected" : "" %> >
+                        <%= categoria.getNombre() %>
+                    </option>
+                    <% } %>
                 </select>
             </div>
+
+            <!-- Dynamic attributes -->
+            <h3>Product Attributes</h3>
+            <% for (Object[] o : tuplaAC) {
+                Atributo atributo = (Atributo) o[0];
+                Contenido contenido = (Contenido) o[1];
+                String contenidoValor = (contenido != null) ? contenido.getContenido() : null;
+            %>
+            <div class="product-row">
+                <label for="atributo_<%= atributo.getId() %>"><%= atributo.getNombre() %>:</label>
+                <input type="text" id="atributo" name="<%= atributo.getId() %>"
+                       value="<%= (contenidoValor != null) ? contenidoValor : "" %>">
+            </div>
+            <% } %>
+
         </div>
-        <button type="submit">CREATE</button>
-    </div>
-</form>
+        <div class="button-container">
+            <button type="submit">Save Changes</button>
+        </div>
+    </form>
+</div>
 </body>
 </html>

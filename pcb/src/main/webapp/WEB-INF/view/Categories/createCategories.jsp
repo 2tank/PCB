@@ -55,7 +55,7 @@
             <div class="header">¡CREATE YOUR CATEGORY!</div>
             <div class="category-details">
                 <div class="category-row">
-                    <label class="label" for="category">category name: </label>
+                    <label class="label" for="category">Category Name: </label>
                     <div class="value"><input type="text" id="category" name="category" required></div>
                 </div>
             </div>

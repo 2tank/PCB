@@ -91,7 +91,7 @@
         </div>
         <div class="account-row">
             <div class="label">Num Categories Associated: </div>
-            <div class="value"><img src="<%= numCategorias %>" alt="thumbnail"></div> <!-- MOSTRAR EL NUMERO DE CATEGORIAS QUE HAY -->
+            <div class="value"><%= numCategorias %></div> <!-- MOSTRAR EL NUMERO DE CATEGORIAS QUE HAY -->
         </div>
         <div class="account-row">
             <div class="label">Num Relations Associated: </div>

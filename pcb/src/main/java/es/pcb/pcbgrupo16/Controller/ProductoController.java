@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/products")
@@ -25,10 +26,15 @@ public class ProductoController extends BaseController {
 
     @Autowired
     private ProductoCategoriaRepository productoCategoriaRepository;
+
     @Autowired
     private AtributoRepository atributoRepository;
+
     @Autowired
     private ContenidoRepository contenidoRepository;
+
+    @Autowired
+    private RelacionRepository relacionRepository;
 
     @GetMapping("/")
     public String listarProductos(Model model, HttpSession session) {
@@ -50,7 +56,9 @@ public class ProductoController extends BaseController {
         }
         productoCategoriaRepository.deleteByIdProducto(id);
         contenidoRepository.deleteByProducto(id);
+        relacionRepository.setProd1AndProd2NullById(id);
         productoRepository.deleteById(id);
+
         Cuenta cuenta = usuario.getCuenta();
         List<Producto> listaProductos = productoRepository.findAllByCuenta(cuenta.getId());
         model.addAttribute("productos", listaProductos);
@@ -79,6 +87,7 @@ public class ProductoController extends BaseController {
             @ModelAttribute Producto producto,
             Model model,
             HttpSession session,
+            @RequestParam("thumbnail") String thumbnail,
             @RequestParam("category") Integer idCategoria,
             @RequestParam Map<String, String> allParams) {
 
@@ -92,6 +101,7 @@ public class ProductoController extends BaseController {
         producto.setCuenta(cuenta);
         producto.setFechaCreacion(LocalDate.now());
         producto.setFechaModificacion(LocalDate.now());
+        producto.setThumnail(thumbnail);
 
         // Guardamos el producto
         productoRepository.save(producto);
@@ -149,40 +159,91 @@ public class ProductoController extends BaseController {
     @GetMapping("/edit")
     public String editarProducto(Model model, HttpSession session, @RequestParam("id") Integer id){
 
+        Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
+        Cuenta cuenta = usuario.getCuenta();
+
+        List<Contenido> contenidos = contenidoRepository.getContenidoByProducto(id);
+
+        List<Atributo> atributos = atributoRepository.findAllByCuenta(cuenta);
+        List<Object[]> tuplaAC = new ArrayList<>();
+
+        for(Atributo atributo : atributos){
+            Contenido contenido = contenidoRepository.findByAtributoAndId(atributo.getId(), id);
+            tuplaAC.add(new Object[] { atributo, contenido });
+        }
+        
         model.addAttribute("categorias", categoriaRepository.findAll());
         model.addAttribute("producto", productoRepository.findById(id).orElse(null));
         model.addAttribute("categoriasProducto", categoriaRepository.findAll());
+        model.addAttribute("tuplaAC",tuplaAC);
 
+        
+        
         return "Products/editProducts";
     }
     @PostMapping("/edit")
-    public String editarProducto(@ModelAttribute Producto producto/*Producto que he de modificar*/, Model model, HttpSession session, @RequestParam("category") Integer idCategoria){
+    public String editarProducto(
+            @RequestParam("id") Integer id,
+            @RequestParam("gtin") Integer gtin,
+            @RequestParam("nombre") String nombre,
+            @RequestParam("thumbnail") String thumbnail,
+            @RequestParam("category") Integer categoryId,
+            @RequestParam Map<String, String> allParams,
+            Model model,
+            HttpSession session){
+
+        // Filtrar únicamente las claves que correspondan a los IDs de atributos (dinámicos)
+        Map<String, String> atributos = allParams.entrySet()
+                .stream()
+                .filter(entry -> entry.getKey().matches("\\d+")) // Filtrar solo claves numéricas (IDs de atributos)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
         Usuario usuario = (Usuario) session.getAttribute("usuarioSesion");
-        Producto prod_mod = productoRepository.findById(producto.getId()).get();
+        Producto prod_mod = productoRepository.findById(id).get();
 
-        prod_mod.setFechaModificacion(producto.getFechaModificacion());
-        prod_mod.setNombre(producto.getNombre());
-        prod_mod.setFechaModificacion(producto.getFechaModificacion());
-        producto.setThumnail(producto.getThumnail());
+        //prod_mod.setFechaModificacion(producto.getFechaModificacion());
+        prod_mod.setNombre(nombre);
+        prod_mod.setGtin(gtin);
+        prod_mod.setFechaModificacion(LocalDate.now());
+        prod_mod.setThumnail(thumbnail);
 
-        Categoria categoria = categoriaRepository.findById(idCategoria).orElse(null);
+        Categoria categoria = categoriaRepository.findById(categoryId).orElse(null);
         if (categoria == null) {
             model.addAttribute("error", "Categoría no encontrada.");
             return "Products/errorProducto"; // Si la categoría no existe, mostramos un error
         }
 
+        for (Map.Entry<String, String> entry : atributos.entrySet()) {
+
+
+            Integer atributoId = Integer.parseInt(entry.getKey());
+            String valor = entry.getValue();
+
+            Atributo atributo = atributoRepository.findById(atributoId).orElse(null);
+            Contenido contenido = contenidoRepository.findByAtributoAndId(atributoId, id);
+            if(contenido == null){
+                contenido = new Contenido();
+                contenido.setProducto(prod_mod);
+                contenido.setAtributo(atributo);
+            }
+            contenido.setContenido(valor);
+            contenidoRepository.save(contenido);
+        }
+        //MARCOS PUTERO (si soy)
+
+
         // Creamos el ID embebido para la relación de Producto y Categoría
         ProductocategoriaId productocategoriaId = new ProductocategoriaId();
-        productocategoriaId.setIdProducto(producto.getId());
-        productocategoriaId.setIdCategoria(idCategoria);
+        productocategoriaId.setIdProducto(id);
+        productocategoriaId.setIdCategoria(categoryId);
 
         // Creamos el objeto Productocategoria
         Productocategoria productocategoria = new Productocategoria();
         productocategoria.setId(productocategoriaId); // Establecemos el ID embebido
-        productocategoria.setIdProducto(producto); // Establecemos la relación con Producto
+        productocategoria.setIdProducto(prod_mod); // Establecemos la relación con Producto
         productocategoria.setIdCategoria(categoria); // Establecemos la relación con Categoria
 
-        productoCategoriaRepository.deleteByIdProducto(producto.getId());
+        productoCategoriaRepository.deleteByIdProducto(prod_mod.getId());
 
         // Guardamos la relación en la tabla productocategoria
         productoCategoriaRepository.save(productocategoria);

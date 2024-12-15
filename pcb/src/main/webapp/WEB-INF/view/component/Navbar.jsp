@@ -66,6 +66,7 @@
 </style>
 <header>
     <nav>
+        <a href="/">HOME</a>
         <a href="/products/">PRODUCTS</a>
         <a href="/categories/">CATEGORIES</a>
         <a href="/atributes/">ATTRIBUTES</a>

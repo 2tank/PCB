@@ -139,7 +139,7 @@
             <!-- Product Name -->
             <div class="relacion-row">
                 <label class="label" for="nombre">Relationship Name:</label>
-                <div class="value"><input type="text" id="nombre" name="nombre" required></div>
+                <div class="value"><input type="text" id="nombre" name="nombre" value="<%=relacion.getName()%>" required></div>
             </div>
         </div>
         <div>
@@ -150,9 +150,19 @@
                 <div class="select-group select-left">
                     <label for="producto1">Product 1:</label>
                     <select id="producto1" name="producto1">
-                        <option value="<%=-1%>"> No selected product </option>
-                        <%for(Producto p:productos){%>
-                        <option value="<%=p.getId()%>"><%=p.getNombre()%></option>
+                        <%if(relacion.getProd1() == null){%>
+                            <option value="<%=-1%>"> No selected product </option>
+                            <%for(Producto p:productos){%>
+                                <option value="<%=p.getId()%>"><%=p.getNombre()%></option>
+                            <%}%>
+                        <%}else{%>
+                            <option value="<%=relacion.getProd1().getId()%>"> <%=relacion.getProd1().getNombre()%> </option>
+                            <option value="<%=-1%>"> No selected product </option>
+                            <%for(Producto p:productos){%>
+                                <%if(!p.equals(relacion.getProd1())){%>
+                                    <option value="<%=p.getId()%>"><%=p.getNombre()%></option>
+                                <%}%>
+                            <%}%>
                         <%}%>
                     </select>
                 </div>
@@ -163,16 +173,26 @@
                     <div class="select-right">
                         <label for="producto2">Product 2:</label>
                         <select id="producto2" name="producto2">
-                            <option value="<%=-1%>"> No selected product </option>
-                            <%for(Producto p:productos){%>
-                            <option value="<%=p.getId()%>"><%=p.getNombre()%></option>
+                            <%if(relacion.getProd2() == null){%>
+                                <option value="<%=-1%>"> No selected product </option>
+                                <%for(Producto p:productos){%>
+                                    <option value="<%=p.getId()%>"><%=p.getNombre()%></option>
+                                <%}%>
+                            <%}else{%>
+                                <option value="<%=relacion.getProd2().getId()%>"> <%=relacion.getProd2().getNombre()%> </option>
+                                <option value="<%=-1%>"> No selected product </option>
+                                <%for(Producto p:productos){%>
+                                    <%if(!p.equals(relacion.getProd2())){%>
+                                        <option value="<%=p.getId()%>"><%=p.getNombre()%></option>
+                                    <%}%>
+                                <%}%>
                             <%}%>
                         </select>
                     </div>
                 </div>
             </div>
             <!-- Submit Button -->
-            <button type="submit">CREATE</button>
+            <button type="submit">EDIT</button>
         </div>
     </div>
 </form>
