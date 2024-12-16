@@ -281,7 +281,8 @@ public class ProductoController extends BaseController {
 
         List<Contenido> contenidos = new ArrayList<>();
         contenidos = contenidoRepository.getContenidoByProducto(id);
-
+        List<Relacion> listaRelaciones = relacionRepository.findAllByProducto(producto.getId());
+        model.addAttribute("relaciones",listaRelaciones);
         model.addAttribute("contenidos", contenidos);
         model.addAttribute("categoriasProducto", categorias);
         model.addAttribute("producto", producto);
