@@ -1,7 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="es.pcb.pcbgrupo16.Entities.Categoria" %>
-<%@ page import="es.pcb.pcbgrupo16.Entities.Producto" %>
-<%@ page import="es.pcb.pcbgrupo16.Entities.Contenido" %>
+<%@ page import="es.pcb.pcbgrupo16.Entities.*" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -9,6 +7,8 @@
     Producto producto = (Producto) request.getAttribute("producto");
     List<Categoria> categoriasProducto = (List<Categoria>) request.getAttribute("categoriasProducto");
     List<Contenido> contenidos = (List<Contenido>) request.getAttribute("contenidos");
+    List<Relacion> relaciones = (List<Relacion>) request.getAttribute("relaciones");
+
 %>
 
 <!DOCTYPE html>
@@ -93,6 +93,42 @@
         h3 {
             color: #555;
         }
+        .product-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center; /* Align image and text vertically */
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fff;
+        }
+
+        /* Thumbnail styling */
+        .product-item img {
+            width: 60px; /* Consistent thumbnail size */
+            height: 60px;
+            object-fit: cover; /* Ensures the image doesn't stretch */
+            margin-right: 15px; /* Space between image and product details */
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        /* Product details next to the image */
+        .product-item div {
+            flex-grow: 1; /* Let the text take up the remaining space */
+        }
+
+        /* Styling for links and actions */
+        .product-item a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .product-item a:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -155,6 +191,41 @@
         <% } %>
         <% } else { %>
         <p>No contents available for this product.</p>
+        <% } %>
+    </div>
+
+    <div class="content-container">
+        <h3>Product relationship</h3>
+        <% if (relaciones != null && !relaciones.isEmpty()) { %>
+            <% for (Relacion relacion : relaciones) { %>
+        <%if(relacion.getProd1() == producto){%>
+        <h5><%=relacion.getName()%></h5>
+        <div class="product-item">
+            <img src="<%= relacion.getProd2().getThumnail() %>" alt="Product Image">
+
+            <div>
+                <a href="/products/view?id=<%= relacion.getProd2().getId() %>">
+                    <strong><%= relacion.getProd2().getNombre() %></strong>
+                </a>
+                <p>SKU: <%= relacion.getProd2().getId() %> | Account: <%= relacion.getProd2().getCuenta().getNombre() %></p>
+            </div>
+        </div>
+        <%}else{%>
+        <h5><%=relacion.getName()%></h5>
+        <div class="product-item">
+            <img src="<%= relacion.getProd1().getThumnail() %>" alt="Product Image">
+
+            <div>
+                <a href="/products/view?id=<%= relacion.getProd1().getId() %>">
+                    <strong><%= relacion.getProd1().getNombre() %></strong>
+                </a>
+                <p>SKU: <%= relacion.getProd1().getId() %> | Account: <%= relacion.getProd1().getCuenta().getNombre() %></p>
+            </div>
+        </div>
+        <%}%>
+            <% } %>
+        <% } else { %>
+            <p>No Relations available for this product.</p>
         <% } %>
     </div>
 </div>

@@ -21,6 +21,6 @@ public interface RelacionRepository extends JpaRepository<Relacion, Integer> {
     @Query("UPDATE Relacion r SET r.prod1 = NULL, r.prod2 = NULL WHERE r.prod1.id = :id OR r.prod2.id = :id")
     void setProd1AndProd2NullById(@Param("id") Integer id);
 
-    @Query("SELECT r FROM Relacion r WHERE r.prod1 = :id or r.prod2 = :id")
+    @Query("SELECT r FROM Relacion r WHERE r.prod1.id = :id or r.prod2.id = :id")
     List<Relacion> findAllByProducto(@Param("id") Integer id);
 }
